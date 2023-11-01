@@ -8,5 +8,6 @@
 	<typeAlias type="com.lib.fin.approval.ApprovalDocVO" alias="ApprovalDocVO"/>
 	<typeAlias type="com.lib.fin.approval.ApprovalFileVO" alias="ApprovalFileVO"/>
 	<typeAlias alias="ScheduleVO" type="com.lib.fin.schedule.ScheduleVO"/>
+	<typeAlias type="com.lib.fin.book.BookVO" alias="BookVO"/>
 	</typeAliases>
 </configuration>	  

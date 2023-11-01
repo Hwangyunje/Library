@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.fin.book.BookDAO">
+  <insert id="setBookAdd" parameterType="BookVO">
+		INSERT INTO BOOK_BASE 
+		values(0, #{book_name}, #{book_author}, #{book_publisher}, '20231024001', '20231024001', sysdate(), sysdate(), 'y');
+   </insert>
+   
+   <select id="getBooklist" resultType="BookVO">
+   		SELECT * FROM BOOK_BASE
+   		WHERE USE_YN='y'
+   </select>
+   </mapper>

@@ -85,6 +85,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+          align:center;
 
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'fcicons' !important;
@@ -271,6 +272,7 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
 .fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    margin:5px;
   }
 .fc-direction-rtl .fc-button-group > .fc-button:not(:first-child) {
     margin-right: -1px;
@@ -281,6 +283,9 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+.fc-myCustomButton-button{
+	margin:5px;
+}
 .fc .fc-toolbar {
     display: flex;
     justify-content: space-between;
@@ -739,6 +744,7 @@ A HORIZONTAL event
     position: relative;
     z-index: 4;
     padding: 4px;
+    color: black;
   }
 .fc {
 

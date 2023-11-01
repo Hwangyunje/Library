@@ -1,6 +1,7 @@
 package com.lib.fin.schedule;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,5 +16,5 @@ public interface ScheduleDAO {
 	
 	public int setScheduleDelete(ScheduleVO scheduleVO) throws Exception;
 	
-	public List<ScheduleVO> getScheduleList(ScheduleVO scheduleVO) throws Exception;
+	public List<Map<String, Object>> getScheduleList() throws Exception;
 }

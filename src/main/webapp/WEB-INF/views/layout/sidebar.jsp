@@ -165,7 +165,7 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="charts-nav01" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="charts-chartjs.html">
+            <a href="/book/booklist">
               <i class="bi bi-circle"></i><span>도서 관리</span>
             </a>
           </li>

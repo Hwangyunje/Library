@@ -68,6 +68,31 @@
 							    <td class="tg-0lax"></td>
 							    <td class="tg-0lax"></td>
 							    <td class="tg-0lax"></td>
+							     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								  수정
+								</button>
+
+								<!-- Modal -->
+								<form>
+								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h1 class="modal-title fs-5" id="exampleModalLabel">일정 수정</h1>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <div class="modal-body">
+								        ...
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+								        <button type="submit" class="btn btn-primary" id="updateCalendar">수정</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								</form>
+							  	<button id="deleteCalendar">삭제</button>
 							  </tr>
 							</tbody>
 							</table>
@@ -91,6 +116,8 @@
 							    <td class="tg-0lax"></td>
 							    <td class="tg-0lax"></td>
 							    <td class="tg-0lax"></td>
+							    <button>수정</button>
+							  	<button>삭제</button>
 							  </tr>
 							</tbody>
 							</table>

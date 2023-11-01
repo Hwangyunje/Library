@@ -17,12 +17,11 @@ public class ScheduleVO extends CommonVO {
 	
 	private int schedule_no;
 	private String emp_no;
+	private String grp_cd;
 	private Date schedule_start_time;
 	private Date schedule_end_time;
 	private String schedule_contents;
 	private String schedule_title;
-	private String schedule_kind;
+	
 
-	@Autowired
-	private List<ScheduleVO> schedulelist = new ArrayList<>();
 }

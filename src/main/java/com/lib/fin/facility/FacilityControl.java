@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FacilityControl {
 	
 	@GetMapping("facilitylist")
-	public void getFacility() {
-		
+	public String getFacility() throws Exception {
+		return "facility/facilitylist";
 	}
 }

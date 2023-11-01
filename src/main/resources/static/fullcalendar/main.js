@@ -5,6 +5,7 @@ Docs & License: https://fullcalendar.io/
 */
 var FullCalendar = (function (exports) {
     'use strict';
+    
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.

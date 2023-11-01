@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +28,26 @@ public class ScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 	
-	@GetMapping("schedule")
-	public String getSchedule() throws Exception{
+	@GetMapping("getSchedule")
+	public ModelAndView getSchedule() throws Exception{
+		Map<String, Object> resultMap = new HashMap<>();
+		Map<String, Object> listMap = new HashMap<>();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/schedule/schedule");
+		List<Map<String, Object>> events = scheduleService.getScheduleList();
+		
+		JSONObject json = new JSONObject();
+		json.put("List", events );
+		
+		
+		mv.addObject("List" ,json);
+		
+		
+		
+		
+		return mv;
 		 
-		 return "schedule/schedule";
+		 
 	}
 	
 	@PostMapping("add")
@@ -43,10 +60,10 @@ public class ScheduleController {
 	
 	@GetMapping("scheduleList")
 	@ResponseBody
-	public List<ScheduleVO> getEvents(ScheduleVO scheduleVO) throws Exception{
-	    List<ScheduleVO> events = scheduleService.getScheduleList(scheduleVO);
-	    
-	    return events;
+	public JSONObject getEvents(ScheduleVO scheduleVO) throws Exception{
+		JSONObject resultJson = new JSONObject();
+
+	    return resultJson;
 	}
 	
 	
