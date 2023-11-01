@@ -230,12 +230,12 @@
 		
 		 $.ajax({
 		        url: "/schedule/schedule",
-		        data: formdata,
+		        data: data,
 		        processData: false,    // 필수
 		        contentType: false,    // 필수
 		        method: "post",
 		        cache: false,
-		        enctype: "multipart/form-data",
+		        enctype: "data",
 		        dataType: "json",
 		        success: function (data) {
 		            console.log(data);
@@ -324,8 +324,9 @@
         			start:'2023-11-01',
         			end:'2023-11-01'
         			
-        		}
-        		.
+        		},
+        		{obj}
+        		
         	]
         
         	

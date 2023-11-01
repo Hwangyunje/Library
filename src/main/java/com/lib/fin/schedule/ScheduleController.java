@@ -8,13 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
@@ -29,7 +25,7 @@ public class ScheduleController {
 	private ScheduleService scheduleService;
 	
 	@GetMapping("getSchedule")
-	public ModelAndView getSchedule() throws Exception{
+	public ModelAndView getScheduleList() throws Exception{
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> listMap = new HashMap<>();
 		ModelAndView mv = new ModelAndView();
@@ -38,7 +34,7 @@ public class ScheduleController {
 		
 		JSONObject json = new JSONObject();
 		json.put("List", events );
-		
+		System.out.println(json);
 		
 		mv.addObject("List" ,json);
 		
