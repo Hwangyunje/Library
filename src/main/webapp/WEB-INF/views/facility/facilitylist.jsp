@@ -58,27 +58,7 @@
 							    <td class="tg-0pky"></td>
 							    <td class="tg-0pky"></td>
 							  </tr>
-							  <tr>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							  </tr>
-							  <tr>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							  </tr>
-							  <tr>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							    <td class="tg-0pky"></td>
-							  </tr>
+							
 							</tbody>
 							</table>
 <div class=""></div>
