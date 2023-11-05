@@ -15,15 +15,15 @@
 	position:relative;
 	left:1110px;
 	margin:6px;
-	}
+	top:60px;}
 .add-btn{width:80px;
 position:relative;
 left:900px;
-top:-20px}
+top:30px}
 .del-btn{width:80px;
 position:relative;
 left:1000px;
-top:-50px}
+top:0px}
 .title{
 text-align:center;
 }
@@ -79,11 +79,7 @@ top:130px;
 						
 						<h1 class="title">공용품리스트</h1>
 						
-						  <div class="hstack gap-3 text-decoration-underline">
-								  <div class="p-1">전체</div>
-								  <div class="p-2">시설</div>
-								  <div class="p-3">공용품</div>
-						
+						<div>
 								 </div>
 						<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addFacilityModal">추가</button>
 													<!-- Modal -->
