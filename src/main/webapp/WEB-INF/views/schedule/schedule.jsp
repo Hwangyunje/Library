@@ -66,8 +66,13 @@
   }
   .fc-next-button{
   position:relative;
-  top:-37px;
-  left:170px;
+  top:-65px;
+  left:235px;
+  }
+  .fc-toolbar-title{
+  width:240px;
+  height:60px;
+  text-align:center;
   }
   
  
@@ -260,7 +265,7 @@
                              obj.start = info.event._instance.range.start;
                              obj.end = info.event._instance.range.end;
                              events.push(obj);
-  							 setScheduleupdate();
+  							 setScheduleupdate(obj);
                              console.log(events);
                              $(function deleteData() {
                                  $.ajax({
@@ -276,7 +281,7 @@
                             if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
                                
                                 info.event.remove();
-                                setScheduleDelete();
+                                setScheduleDelete(obj);
                             }
  
                             console.log(info.event);

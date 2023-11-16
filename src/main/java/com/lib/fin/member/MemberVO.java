@@ -56,6 +56,11 @@ public class MemberVO extends CommonVO implements UserDetails{
 	
 	private Date emp_out_date;
 	
+	private String sign_oriName;
+
+	private String sign_name;
+
+	
 	private List<RoleVO> roleVOs = new ArrayList<>();
 
 

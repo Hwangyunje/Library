@@ -13,6 +13,7 @@
    		SELECT SCHEDULE_TITLE as title
 	   		,to_char(SCHEDULE_START_TIME,'yyyy-mm-dd') as start
 	   		,to_char(SCHEDULE_END_TIME,'yyyy-mm-dd') as end
+	   		,SCHEDULE_CONTENTS as contents
 	    FROM SCHEDULE_BASE
    		WHERE USE_YN='Y'
 	   		AND EMP_NO = #{EMP_NO}

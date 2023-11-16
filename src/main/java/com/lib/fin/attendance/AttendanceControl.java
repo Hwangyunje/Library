@@ -100,8 +100,8 @@ public class AttendanceControl {
 		param.put("time", time);
 		 
 		AttendanceVO work = attendanceService.checkWorkTime(param);
-		log.debug("work = {}",work);
-		work.setStatus("정상");
+		
+		log.info("work = {}",work);
 		if(work!=null) {
 			status.put("status","출근전");
 		}else if(work.getStatus().equals("출장")) {
