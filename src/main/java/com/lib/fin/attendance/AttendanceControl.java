@@ -67,7 +67,7 @@ public class AttendanceControl {
 	    param.put("time", time);
 
 	    AttendanceVO work = attendanceService.checkWorkTime(param); //금일 출근기록이 있는지 확인
-
+	    
 	    if(work == null) {
 	        int result = attendanceService.insertStartWork(emp_no); // insert
 	        state.put("status", "성공");
@@ -101,7 +101,7 @@ public class AttendanceControl {
 		 
 		AttendanceVO work = attendanceService.checkWorkTime(param);
 		log.debug("work = {}",work);
-		
+		work.setStatus("정상");
 		if(work!=null) {
 			status.put("status","출근전");
 		}else if(work.getStatus().equals("출장")) {

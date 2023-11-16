@@ -246,6 +246,8 @@
                         
                         events: schListJson,
                         
+                       
+                        
                         eventDrop: function (info){
                         	console.log(info);
                         	if(confirm(""+ info.event.title+"'일정을 수정하시겠습니까?")){
@@ -258,7 +260,7 @@
                              obj.start = info.event._instance.range.start;
                              obj.end = info.event._instance.range.end;
                              events.push(obj);
-  
+  							 setScheduleupdate();
                              console.log(events);
                              $(function deleteData() {
                                  $.ajax({
@@ -274,6 +276,7 @@
                             if(confirm("'"+ info.event.title +"' 일정을 삭제하시겠습니까 ?")){
                                
                                 info.event.remove();
+                                setScheduleDelete();
                             }
  
                             console.log(info.event);
