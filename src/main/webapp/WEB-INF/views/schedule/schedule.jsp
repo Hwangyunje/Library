@@ -202,9 +202,10 @@
                 data: {"EMP_NO":"${emp_no}"},
                 method: "post",
                 cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 dataType: "text",
                 success: function (data) {
-
+					console.log(data);
                     var test = JSON.parse(data);
                     schListJson=test.list;
                     console.log(schListJson);
@@ -212,6 +213,7 @@
                     var calendarEl = document.getElementById('calendarS');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
 
+                    	
                         locale: 'ko',
                         timeZone: 'Asia/Seoul',
                         initialView: 'dayGridMonth',

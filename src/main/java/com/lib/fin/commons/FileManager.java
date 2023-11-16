@@ -30,5 +30,16 @@ public class FileManager {
 			return fileName;
 			
 		}
+		
+		
+		//파일삭제
+		public boolean fileDelete(FileVO fileVO, String path) {
+		    // 1. 삭제할 폴더의 실제 경로
+		   
+		    File file = new File(path, fileVO.getFile_name());
+
+
+		    return file.delete();
+		}
 
 }

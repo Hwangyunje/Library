@@ -1,13 +1,22 @@
 package com.lib.fin.attendance;
 
-import org.springframework.stereotype.Service;
+import java.util.Map;
 
-@Service
-public class AttendanceService {
+public interface AttendanceService {
+
+	AttendanceVO checkWorkTime(Map<String, Object> param);
 	
-	private AttendanceDAO attendanceDAO;
+	int insertStartWork(String emp_no);
 	
-	public int setGtw_time(AttendanceVO attendanceVO)throws Exception{
-		return attendanceDAO.setGtw_time(attendanceVO);
-	};
+	int updateStartWork(Map<String, Object> param);
+	
+	int updateEndWork(Map<String, Object> param);
+	
+	int updateDayWorkTimeHalf(Map<String, Object> param);
+	
+	int updateDayWorkTime(Map<String, Object> param);
+
+	int weekTotalTime(Map<String, Object> param);
+	
+	int selectWeekOverTime(Map<String, Object> startEndMap);
 }

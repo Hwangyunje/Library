@@ -69,6 +69,11 @@ public class AnnouncementController {
 			throws Exception {
 		model.addAttribute("member", memberVO);
 		List<BoardVO> list = announcementService.getList(pager);
+		for (BoardVO boardVO : list) {
+			log.info("==============Board List log  : {}",boardVO.getBoard_kind());
+		}
+	
+		mv.addObject("member", memberVO);
 		mv.addObject("list", list);
 		mv.addObject("pager", pager);
 		mv.setViewName("board/announcement/announcementlist");

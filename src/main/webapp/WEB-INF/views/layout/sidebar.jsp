@@ -42,17 +42,17 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_new" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/approval/draft">
+            <a href="/approval/draft?k=d">
               <i class="bi bi-circle"></i><span>업무기안</span>
             </a>
           </li>
           <li>
-            <a href="/approval/leave">
+            <a href="/approval/draft?k=l">
               <i class="bi bi-circle"></i><span>휴가신청서</span>
             </a>
           </li>
           <li>
-            <a href="/approval/expense">
+            <a href="/approval/draft?k=e">
               <i class="bi bi-circle"></i><span>지출결의서</span>
             </a>
           </li>
@@ -67,15 +67,11 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="/approval/list?k=ready">
               <i class="bi bi-circle"></i><span>결재 대기 문서</span>
             </a>
           </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>결재 예정 문서</span>
-            </a>
-          </li>
+ 
           
         
         </ul>
@@ -87,25 +83,33 @@ pageEncoding="UTF-8"%>
         </a>
         <ul id="approval_doc" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="/approval/comDocList">
+            <a href="/approval/list?k=com">
               <i class="bi bi-circle"></i><span>기안 문서함</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/approval/list?k=temp">
               <i class="bi bi-circle"></i><span>임시 문서함</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>참조 문서함</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
+            <a href="/approval/list?k=done">
               <i class="bi bi-circle"></i><span>결재 문서함</span>
             </a>
           </li>
+        
+        </ul>
+      </li><!-- End Components Nav -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#approval_sign" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-files"></i><span>싸인 등록</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="approval_sign" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/approval/addSign">
+              <i class="bi bi-circle"></i><span>싸인 등록</span>
+            </a>
         
         </ul>
       </li><!-- End Components Nav -->

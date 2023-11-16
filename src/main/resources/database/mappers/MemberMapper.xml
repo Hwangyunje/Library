@@ -88,12 +88,21 @@
 	</update>  
 
    	
-  	<!-- emp_no modal용 -->
-  	<select id="getEmpNoModal" parameterType="MemberVO" resultType="memberVO">
-   		SELECT EMP_NO FROM MEM_INFO
-   		
-   	</select> 
+  	<!-- emp_no 이메일 / 가장최신 내림차순 사원번호 가져오기  -->
+ <select id="getNewEmpNo" parameterType="MemberVO">
+	    SELECT EMP_NO
+	    FROM MEM_INFO
+	    ORDER BY EMP_NO DESC
+	    LIMIT 1;
+   	</select>  
    	
+ <!--   	<select id="getNewEmpNo" resultType="String">
+	    SELECT EMP_NO
+	    FROM MEM_INFO
+	    ORDER BY EMP_NO DESC
+	    LIMIT 1;
+   	</select> 
+   	 -->
   	
    	<!-- 관리자 -->
 <!-- 	
@@ -119,7 +128,7 @@
 	    
 	
 
-	<!-- 별칭으로 컬럼 지정 -->
+	<!-- 로그인 // 별칭으로 컬럼 지정 -->
 	<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
 	SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
 	       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION, MR.ROLENUM, R.ROLENAME 
@@ -160,9 +169,15 @@
 		<select id="findPassword" resultType="memberVO">
 			SELECT EMP_NO
 			FROM MEM_INFO 
-			WHERE EMP_NO = #{emp_no} AND PHONE = #{phone}
+			WHERE EMP_NO = #{emp_no} AND EMAIL = #{email}
 		</select>
 	
+		<!-- 임시비밀번호 저장 -->
+		<update id="updateTempPassword" parameterType="MemberVO">
+			UPDATE MEM_INFO
+			SET PASSWORD = #{password}
+			WHERE EMP_NO = #{emp_no} AND EMAIL = #{email}
+		</update>
 
 
 	<resultMap type="MemberVO" id="getMemberResult">

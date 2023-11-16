@@ -83,8 +83,10 @@ public class Pager {
 		this.startRow=(this.getPage()-1)*this.getPerPage()+1;
 		this.lastRow=this.page*this.getPerPage();
 	}
-
 	
+	public void makeRowNum2() {
+		this.startRow=(this.getPage()-1)*this.getPerPage();
+	}
 
 
 	public Long getStartNum() {

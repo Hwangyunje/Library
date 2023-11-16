@@ -5,6 +5,78 @@
   
   <mapper namespace="com.lib.fin.approval.ApprovalDAO">
   
+    <sql id="searchSql">
+		 	<if test="pager.kind == 'grp_cd'">
+		 		AND	 GRP_CD 
+		 		in( (SELECT CD FROM ST_STD_CD where cd_nm LIKE concat('%',#{pager.search},'%')))
+		 	</if>
+		 	<if test="pager.kind == 'contents'">
+		 		AND	DOC_CONTENTS LIKE concat('%',#{pager.search},'%')
+		 	</if>
+		 	<if test="pager.kind == 'title'">
+		 		AND	DOC_TITLE LIKE concat('%',#{pager.search},'%')
+		 	</if>
+		 	<if test="pager.kind == 'state'">
+		 		AND	APPROVAL_STATE 
+		 		in( (SELECT CD FROM ST_STD_CD where cd_nm LIKE concat('%',#{pager.search},'%')))
+		 	</if>
+  	</sql>
+  
+  
+  	<!-- total -->
+  	<select id="getTotal" resultType="Long" parameterType="Map">
+ 
+		
+		SELECT COUNT(*) FROM APPROVAL_DOC
+		<if test="k=='com'">
+		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'N'
+		</if>
+		<if test="k=='temp'">
+		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'Y'
+		</if>
+		<if test="k=='done'">
+		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'N' and (APPROVAL_STATE = "O" or APPROVAL_STATE = "C")
+		</if>
+		<if test="k=='ready'">
+			as ad
+			JOIN
+   			 APPROVAL_HISTORY ah ON ad.DOC_NO = ah.DOC_NO
+			WHERE
+    		ah.EMP_NO = #{emp_no} AND ah.APPROVAL_STATE ='R' AND ad.USE_YN ='Y' AND ad.TEMP_SAVE = "N"
+		</if>
+		<include refid="searchSql"></include>
+	</select>
+	
+	<!-- 문서 리스트 -->
+  	<select id="getAppDocList" resultType="ApprovalDocVO" parameterType="Map">
+  		SELECT ad.REG_DATE,
+ 		 (SELECT cd_nm 
+  		  	FROM ST_STD_CD 
+  		 WHERE grp_cd='A001' AND CD= ad.GRP_CD) as grp_cd , ad.DOC_TITLE, ad.DOC_NO,
+   		(SELECT cd_nm 
+  			FROM ST_STD_CD 
+  		 WHERE grp_cd='A002' AND CD= ad.APPROVAL_STATE) as approval_state
+			FROM APPROVAL_DOC ad
+		<if test="k=='com'">
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N'
+		</if>
+		<if test="k=='temp'">
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y'
+		</if>
+		<if test="k=='done'">
+		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N' and (ad.APPROVAL_STATE = "O" or ad.APPROVAL_STATE = "C")
+		</if>
+		<if test="k=='ready'">
+			JOIN
+   			 APPROVAL_HISTORY ah ON ad.DOC_NO = ah.DOC_NO
+			WHERE
+    		ah.EMP_NO = #{emp_no} AND ah.APPROVAL_STATE ='R' AND ad.USE_YN ='Y' AND ad.TEMP_SAVE = "N"
+		</if>
+		<include refid="searchSql"></include>
+		ORDER BY DOC_NO DESC
+  		LIMIT #{pager.startRow}, #{pager.perPage}
+  	</select>
+	
   	<!-- file add -->
   	<insert id="setFileAdd" parameterType="ApprovalFileVO">
   		INSERT INTO APPROVAL_FILE(APPROVAL_FILE_NO, DOC_NO, APPROVAL_FILENAME,APPROVAL_ORINAME, REG_ID,MOD_ID,REG_DATE,MOD_DATE,USE_YN)
@@ -15,12 +87,12 @@
   	<!-- 기안 add -->
   	<insert id="setDraft" parameterType="ApprovalDocVO" useGeneratedKeys="true" keyProperty="doc_no">
   	
-  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},now(),null,null,#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
+  		INSERT INTO APPROVAL_DOC VALUES(#{doc_no},#{emp_no},#{grp_cd},#{approval_state},#{doc_title},#{doc_contents},#{start_date},#{end_date},#{adtn_info1},#{adtn_info2},#{adtn_info3},#{temp_save},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
   	
   	<!-- 기안 detail -->
   	<select id="getDraftDetail" parameterType="ApprovalDocVO" resultMap="getDetailResult">
-		SELECT ad.*, af.*, mi.NAME AS name, st.CD_NM AS emp_team
+		SELECT ad.*, af.*, mi.NAME AS name, st.CD_NM AS emp_team, mi.sign_name
 		FROM APPROVAL_DOC ad
 		LEFT JOIN APPROVAL_FILE af ON ad.DOC_NO = af.DOC_NO
 		LEFT JOIN MEM_INFO mi ON ad.EMP_NO = mi.EMP_NO
@@ -47,9 +119,11 @@
 	  	<result column="REG_DATE" property="reg_date"/>
 	  	<result column="MOD_DATE" property="mod_date"/>
 	  	<result column="USE_YN" property="use_yn"/>
+	  	<result column="SIGN_NAME" property="sign_name"/>
+	  	<result column="ADTN_INFO3" property="adtn_info3"/>
   	
   	<collection property="fileVOs" javaType="List" ofType="ApprovalFileVO">
-  		<id column="APPROVAL_NO" property="file_no"/>
+  		<id column="APPROVAL_File_NO" property="file_no"/>
   		<result column="APPROVAL_FILENAME" property="file_name"/>
   		<result column="APPROVAL_ORINAME" property="file_oriName"/>
   		<result column="REG_ID" property="reg_id"/>
@@ -62,35 +136,122 @@
   	
   	</resultMap>
   	
-  	 <!-- 중간 결재자 -->
-  	<select id="getMidApp" parameterType="ApprovalDocVO" resultType="ApprovalHisVO">
-  		SELECT ah.*, mi.NAME , std.CD_NM 
-		FROM APPROVAL_HISTORY ah
-		LEFT JOIN MEM_INFO mi ON ah.EMP_NO = mi.EMP_NO
-		LEFT JOIN ST_STD_CD std ON std.GRP_CD = 'T001' AND std.CD = mi.EMP_TEAM;
-  		WHERE ah.APPROVAL_LEVEL = 1;
+  	 <!-- 결재자 정보 -->
+  	<select id="getAppLine" parameterType="String" resultType="ApprovalHisVO">
+			SELECT ah.*, mi.NAME AS name, std.CD_NM AS emp_team, mi.SIGN_NAME
+			FROM APPROVAL_HISTORY ah
+			LEFT JOIN MEM_INFO mi ON ah.EMP_NO = mi.EMP_NO
+			LEFT JOIN ST_STD_CD std ON std.GRP_CD = 'T001' AND std.CD = mi.EMP_TEAM
+			WHERE ah.DOC_NO = #{doc_no};
   	</select>
   	
-  	<!-- 최종 결재자 -->
+  
   	<!-- 결재선 -->
   	<insert id="setApprovalHis" parameterType="ApprovalHisVO">
   		INSERT INTO APPROVAL_HISTORY
   		VALUES(#{approval_no},#{emp_no},#{doc_no},#{approval_level},#{approval_state},#{reg_id},#{mod_id},now(),now(),#{use_yn})
   	</insert>
   	
-  	<!-- 문서 리스트 -->
-  	<select id="getAppDocList" resultType="ApprovalDocVO" parameterType="String">
-  		SELECT ad.REG_DATE,
- 		 (SELECT cd_nm 
-  		  	FROM ST_STD_CD 
-  		 WHERE grp_cd='A001' AND CD= ad.GRP_CD) as grp_cd , ad.DOC_TITLE, ad.DOC_NO,
-   		(SELECT cd_nm 
-  			FROM ST_STD_CD 
-  		 WHERE grp_cd='A002' AND CD= ad.APPROVAL_STATE) as approval_state
-			FROM APPROVAL_DOC ad
-		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N'
-		ORDER BY DOC_NO DESC
+  
   	
+  	<!-- 문서 업데이트  -->
+  	<update id="setTempUpdate" parameterType="ApprovalDocVO">
+  		UPDATE APPROVAL_DOC
+  		SET 
+  		<if test="grp_cd == 'A1'">
+  		  START_DATE = #{start_date}
+  		 ,DOC_TITLE = #{doc_title}
+  		 ,APPROVAL_STATE = #{approval_state}
+  		 ,DOC_CONTENTS = #{doc_contents}
+  		 ,TEMP_SAVE = #{temp_save}
+  		 ,MOD_ID = #{emp_no}
+  		 ,MOD_DATE = now()
+  		</if>
+  		<if test="grp_cd == 'B1'">
+  		 START_DATE = #{start_date}
+  		 ,DOC_TITLE = #{doc_title}
+  		 ,DOC_CONTENTS = #{doc_contents}
+  		 ,APPROVAL_STATE = #{approval_state}
+  		 ,TEMP_SAVE = #{temp_save}
+  		 ,ADTN_INFO1 = #{adtn_info1}
+  		 ,MOD_ID = #{emp_no}
+  		 ,MOD_DATE = now()
+  		</if>
+  		<if test="grp_cd == 'H1'">
+  		 START_DATE = #{start_date}
+  		 ,END_DATE = #{end_date}
+  		 ,DOC_TITLE = #{doc_title}
+  		 ,DOC_CONTENTS = #{doc_contents}
+  		 ,APPROVAL_STATE = #{approval_state}
+  		 ,TEMP_SAVE = #{temp_save}
+  		 ,ADTN_INFO1 = #{adtn_info1}
+  		 ,ADTN_INFO2 = #{adtn_info2}
+  		 ,ADTN_INFO3 = #{adtn_info3}
+  		 ,MOD_ID = #{emp_no}
+  		 ,MOD_DATE = now()
+  		</if>
+  		
+  		WHERE DOC_NO = #{doc_no}
+	  	
+  	</update>
+  	
+  	<!-- 결재자 update-->
+  	<update id="setUpdateHis" parameterType="ApprovalHisVO">
+  		UPDATE APPROVAL_HISTORY
+  		SET EMP_NO = #{emp_no}
+  		,APPROVAL_STATE = #{approval_state}
+  		,MOD_ID = #{emp_no}
+  		,REG_ID = #{emp_no}
+  		,MOD_DATE = now()
+  		,REG_DATE = now()
+  		WHERE DOC_NO = #{doc_no} AND APPROVAL_LEVEL = #{approval_level}
+  	</update>
+  	
+  	
+  	<!-- 결제 이력 상태 update-->
+  	<update id="docApproval"  parameterType="Map">
+  		UPDATE APPROVAL_HISTORY
+  		SET APPROVAL_STATE = #{approval_state}
+  		,MOD_ID = #{EMP_NO}
+  		,MOD_DATE = now()
+  		where DOC_NO = #{DOC_NO}
+  		AND EMP_NO = #{EMP_NO}
+  	
+  	</update>
+  	
+  		<!-- 문서 상태 update -->
+  	<update id="docBaseApproval"  parameterType="Map">
+  		UPDATE APPROVAL_DOC
+  		SET APPROVAL_STATE = #{flag}
+  		,MOD_ID = #{EMP_NO}
+  		,MOD_DATE = now()
+  		where DOC_NO = #{DOC_NO}
+  	
+  	</update>
+  		
+  	<!-- sign add -->
+  	<update id="addSign" parameterType="MemberVO">
+  		UPDATE MEM_INFO
+  		SET SIGN_ORINAME=#{sign_oriName},SIGN_NAME=#{sign_name}
+  		WHERE EMP_NO = #{emp_no}
+  	</update>
+  	
+  	<!-- file detail -->
+  	<select id="getFileDetail" parameterType="ApprovalFileVO" resultType="ApprovalFileVO">
+  		SELECT APPROVAL_FILE_NO as file_no, APPROVAL_fILENAME as file_name, APPROVAL_ORINAME as file_oriName 
+  		FROM APPROVAL_FILE WHERE APPROVAL_FILE_NO = #{file_no}
   	</select>
+  	
+  	<!-- file del -->
+  	<delete id="setFileDelete" parameterType="ApprovalFileVO">
+  		DELETE FROM APPROVAL_FILE WHERE APPROVAL_FILE_NO = #{file_no}
+  	</delete>
+  	
+  	<!-- 기안취소 -->
+  	<update id="setAppCancel" parameterType="String">
+  		UPDATE APPROVAL_DOC
+  		SET USE_YN = 'N'
+  		WHERE DOC_NO = ${doc_no}
+  	</update>
   
   </mapper>

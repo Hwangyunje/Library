@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lib.fin.commons.FileManager;
 import com.lib.fin.commons.FileManagerProfile;
@@ -131,7 +132,7 @@ public class MemberController {
 	
 	
     @PostMapping("join")
-    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult,Model model) throws Exception {
+    public String memJoin(@Valid MemberVO memberVO, BindingResult bindingResult,Model model, RedirectAttributes redirectAttributes) throws Exception {
     	boolean check = memberService.getMemberError(memberVO, bindingResult);
     	log.info("===check:{}====", check);
     	if(bindingResult.hasErrors() || check) {
@@ -146,13 +147,18 @@ public class MemberController {
         
        
         
-        if (result > 0) {
+        if (result>0) {
             // 회원 가입이 성공한 경우에 대한 처리
             log.info("===========회원 가입이 성공했습니다.=========");
-             
-
-        	return "member/login";
-    		
+           
+            // 최신의 사원번호를 얻어옴
+            String empPage = memberService.getNewEmpNo(memberVO);
+            memberVO.setEmp_no(empPage);
+            
+            // 사원번호를 모델에 추가
+            model.addAttribute("empPage", memberVO);
+            
+            return "member/newEmpNo";
         }else {
              
         return "member/join";
@@ -160,15 +166,31 @@ public class MemberController {
      }
   
     
+	    @GetMapping("newEmpNo")
+	    public String getNewEmpNo(@ModelAttribute("empPage") MemberVO memberVO )throws Exception{
+	    	//String empPage = memberService.getNewEmpNo(memberVO);
+	    	//memberVO.setEmp_no(empPage);
+	    	
+	    	log.info("========empPage{}==========",memberVO.getEmp_no());
+	    	//model.addAttribute("empPage",memberVO);
+	    	return "member/newEmpNo";	
+	    }
+	 //redirectAttributes emp_no 파라미터로 전달
+//    @GetMapping("newEmpNo")
+//    public String getNewEmpNo(String emp_no,Model model)throws Exception{
+//    	MemberVO memberVO = memberService.getNewEmpNo(emp_no);
+//    	//empPage = memberService.getNewEmpNo(emp_no);
+//    	log.info("========empPage:{}==========",empPage.toString());
+//    	model.addAttribute("empPage",empPage);
+//    	return "member/newEmpNo";	
+//    }
     
-    
-    
-    //모달로 사원번호보내기
-//    @GetMapping("join")
-//    public String getEmpNoModal(String emp_no, Model model)throws Exception{
-//    	String empNo = memberService.getEmpNoModal(emp_no);
-//    	model.addAttribute("empNo", empNo);
-//    	return "member/join";
+//    @PostMapping("newEmpNo")
+//    public String postNewEmpNo(MemberVO memberVO, Model model)throws Exception{
+//    	String empPage=memberService.getNewEmpNo(memberVO.getEmp_no());
+//    	log.info("========empPage{}==========",empPage.toString());
+//    	model.addAttribute("memberVO",empPage);
+//    	return "member/newEmpNo";	
 //    }
     
     
@@ -263,7 +285,7 @@ public class MemberController {
 	public String postFindEmpNo(@RequestParam String name, @RequestParam String phone, Model model)throws Exception{
 		MemberVO memberVO = memberService.findEmpNo(name, phone);
 		//String emp_no = memberService.findEmpNo(name, phone);
-		log.info("=======사원번호:{}=======",memberVO);
+		log.info("=======사원번호:{}=======",memberVO.getName());
 		 if (name == null || name.isEmpty() || phone == null || phone.isEmpty()) {
 		 model.addAttribute("error", "이름과 전화번호를 입력해야 합니다.");
 		 return "member/findEmpNo";
@@ -275,7 +297,7 @@ public class MemberController {
 		}else {
 			model.addAttribute("error", "해당 사원번호를 찾을 수 없습니다.");
 		}
-		return "member/empresult";
+		return "member/empResult";
 	}
 	
 	//비밀번호찾기
@@ -284,8 +306,23 @@ public class MemberController {
 		return "member/findPassword";
 	}
 	
-//	@PostMapping("f")
-	
+	@PostMapping("findPassword")
+	public String postFindPassword(@RequestParam String emp_no,@RequestParam String email, Model model)throws Exception{
+		try {
+			//멤버서비스에서 메서드호출
+			//서비스 리턴값 반환
+			String resultMessage = memberService.findPassword(emp_no, email);
+			log.info("=====resultMemssage:{}=======",resultMessage);
+			//성공적으로 보낸경우 메시지 모델에 추가
+			model.addAttribute("resultMessage", resultMessage);
+
+		} catch (Exception e) {
+			// 예외가 발생하면 메세지 모델에 추가
+			model.addAttribute("errorMessage",e.getMessage());
+			log.error("에러 발생", e);
+		}
+		return "member/passwordResult";
+	}
 	
 }
 

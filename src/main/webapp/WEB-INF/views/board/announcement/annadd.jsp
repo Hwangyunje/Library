@@ -60,6 +60,10 @@
                                                 <label for="board_writer" class="form-label">Writer</label>
                                                 <input type="text" class="form-control" name="board_writer" id="board_writer" value="${member.emp_no}" readonly>
                                             </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input class="form-check-input" type="checkbox" name="board_kind" id="board_kind">
+                                                <label class="form-check-label">비밀글 설정</label>
+                                            </div>
                                             <div class="mb-3" style="width: 100%;">
                                                 <label for="board_contents" class="form-label">Contents</label>
                                                 <textarea class="form-control" id="board_content" name="board_content" rows="17"></textarea>

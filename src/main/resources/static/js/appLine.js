@@ -1,6 +1,6 @@
 		$('#btnGetMem').click(function() {
 
-			$("#refLine").empty();  //참조자 비우기
+			
 			$("#readyMem").empty(); //조직도 비우기
 			$('#memList').empty();	//사원정보 비우기
 			$('#fLine').empty();	//중간승인자 비우기

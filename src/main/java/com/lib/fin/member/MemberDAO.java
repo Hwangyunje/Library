@@ -46,22 +46,23 @@ public interface MemberDAO {
 	//이전프로필사진삭제
 	public void deleteMemImage(Long file_no)throws Exception;
 	
-	
 	//권한부여
 	public int setMemberRole(Map<String, Object> map) throws Exception;
 
 	//업데이트
 	public int updateMember(MemberVO memberVO)throws Exception;
-	//public int updateMember(String password, String phone, String email)throws Exception;
-	
-	// public Integer updateMember(MemberVO memberVO)throws Exception;
-	
-	//회원가입 버튼 클릭 후 emp_no 모달창으로
-//	public String getEmpNoModal(String emp_no)throws Exception;
-
 	
 	//사원번호 찾기
 	public MemberVO findEmpNo(String name, String phone)throws Exception;
 	//비밀번호 찾기
-	public MemberVO findPassword(String emp_no,String phone) throws Exception;
+	public MemberVO findPassword(String emp_no,String email) throws Exception;
+	
+	//임시비밀번호 저장
+	public void updateTempPassword(MemberVO memberVO)throws Exception;
+	
+	//사원번호 
+	//public String getNewEmpNo(String emp_no)throws Exception;
+	public String getNewEmpNo(MemberVO memberVO)throws Exception;
+
+
 }

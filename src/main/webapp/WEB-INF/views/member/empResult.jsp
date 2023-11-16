@@ -37,68 +37,32 @@
 						<div class="d-flex justify-content-center py-4">
 						  <a href="index.html" class="logo d-flex align-items-center w-auto">
 							<img src="assets/img/logo.png" alt="">
-							<span class="d-none d-lg-block">NiceAdmin</span>
+							<span class="d-none d-lg-block">사원번호</span>
 						  </a>
 						</div><!-- End Logo -->
 						
-						
-					<%-- 	<div>
-    	 				<h3>${param.message}</h3>
-    	 				<spring:message code="${param.message}" var="msg"></spring:message>
-    	 				<h3>${msg}</h3>
-    	 				</div> --%>
-						
-						
-						<form method="post" enctype="multipart/form-data" action="/member/login" class="row g-3 needs-validation" novalidate>
+
 						<div class="card mb-3">
 							
 						  <div class="card-body">
 		  
 							<div class="pt-4 pb-2">
-							  <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">로그인</h5>
-							  <p class="text-center small">사원번호와 비밀번호를 입력하세요.</p>
+							  <h5 class="card-title text-center pb-0 fs-4">
+                                사원번호는 <br>
+                                <span style="color: red; font-size: large; font-weight: bold;">${FindEmpNo.emp_no}</span><br>
+                                입니다.</h5>
 							</div>
-		  
-						
-		  
-							  <div class="col-12">
-								<label for="yourUsername" class="form-label">사원번호</label>
-								<div class="input-group has-validation">
-								  <input type="text" name="emp_no" class="form-control" id="yourUsername" required>
-								  <div class="invalid-feedback">사원번호를 입력하세요.</div>
-								</div>
-							  </div>
-		  
-							  <div class="col-12">
-								<label for="yourPassword" class="form-label">비밀번호</label>
-								<input type="password" name="password" class="form-control" id="yourPassword" required>
-								<div class="invalid-feedback">비밀번호를 입력하세요.</div>
-							  </div>
-							  <br>
-		  
-							  <!-- <div class="col-12">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-								  <label class="form-check-label" for="rememberMe">Remember me</label>
-								</div>
-							  </div> -->
-							  <!-- 가운데 정렬 -->
-
 
 							  
 							  <div class="col-12">
-								<button class="btn btn-primary w-100" type="submit">Login</button>
+								<button class="btn btn-primary w-100" onclick="location.href='member/login'">Login</button>
 							  </div>
-							  <div class="col-12 text-center">
-								<span class="small mb-0"><a href="/member/findEmpNo">사원번호 찾기</a></span>&nbsp|&nbsp
-								<span class="small mb-0"><a href="/member/findPassword">비밀번호 찾기</a></span>&nbsp|&nbsp
-								<span class="small mb-0"><a href="/member/join">회원가입</a></span>  
-							</div>
+					
 			
 		  
 						  </div>
 						</div>
-						</form>
+					
 					
 					  </div>
 					</div>

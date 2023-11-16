@@ -5,7 +5,7 @@
 <mapper namespace="com.lib.fin.facility.FacilityDAO">
   <insert id="setFacilityAdd" parameterType="FacilityVO">
 		INSERT INTO FACILITY_BASE 
-		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y');
+		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{cd});
    </insert>
    
    <select id="getFacilitylist" parameterType="Pager" resultType="FacilityVO">
@@ -20,7 +20,7 @@
    <update id="setFacilityUpdate" parameterType="facilityVO">
    		UPDATE FACILITY_BASE SET
    		GRP_CD=#{grp_cd},FACILITY_NAME=#{facility_name},FACILITY_CONTENTS=#{facility_contents},MOD_ID=#{mod_id},MOD_DATE=sysdate()
-		WHERE FACILITY_NO=#{facility_no}
+		WHERE GRP_CD=#{grp_cd} and CD=#{cd}
    </update>
    
    <update id="setFacilityDelete" parameterType="facilityVO">
@@ -29,8 +29,7 @@
    			WHERE FACILITY_NO=#{facility_no}
    </update>
    
-   <select id="getPaginatedList" resultType="FacilityVO"
-		parameterType="map">
+   <select id="getPaginatedList" resultType="FacilityVO" parameterType="map">
 		SELECT * FROM FACILITY_BASE WHERE USE_YN = 'Y'
 		ORDER BY GRP_CD DESC
 		LIMIT #{startRow}, #{pageSize}

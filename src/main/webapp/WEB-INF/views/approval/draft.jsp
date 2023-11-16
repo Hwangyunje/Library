@@ -41,10 +41,9 @@
 					<section class="section dashboard">
 					
 						<div class="container">
-							<form action="/approval/draft" method="post" id="frm"
-								enctype="multipart/form-data">
+							<form action="/approval/draft" method="post" id="frm" enctype="multipart/form-data">
 
-								<input type="hidden" id="grp_cd" name="grp_cd" value="A">
+								
 								<input type="hidden" id="approval_state" name="approval_state" value="R">
 								<input type="hidden" id="temp_save" name="temp_save" value="N">
 								<input type="hidden" id="midApp" name="midApp" value="">
@@ -60,7 +59,15 @@
 									<!-- 각 영역 크기조절하기 -->
 									<div class="col-lg-12">
 										<div class="card">
-											<h1 class="my-5 " align="center">업무 기안</h1>
+											<h1 class="my-5 " align="center">
+											<c:choose>
+												<c:when test="${param.k eq 'd'}"> 업무기안</c:when>
+												<c:when test="${param.k eq 'l'}"> 휴가신청서</c:when>
+												<c:otherwise>
+													지출결의서
+												</c:otherwise>
+											</c:choose>
+											</h1>
 
 											<!-- 상단 왼쪽 strart -->
 											<div class="row grid text-center mx-3">
@@ -103,7 +110,7 @@
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
-															<td>1</td>
+															<td></td>
 														</tr>
 
 													</table>
@@ -123,14 +130,30 @@
 															
 														</tr>
 
-
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
+															<td><img id="sign_img" src="/files/sign/${member.sign_name}"></td>
 														</tr>
 														
 														<tr>
 
-															<td>r</td>
+															<td>
+															<c:choose>
+																  <c:when test="${vo.emp_team eq 'A'}">
+																    대표
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'B'}">
+																    운영과
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'C'}">
+																   정책과
+																  </c:when>
+																   <c:when test="${vo.emp_team eq 'D'}">
+																   서비스과
+																  </c:when>
+																  <c:otherwise>
+																    가발령
+																  </c:otherwise>
+																  </c:choose> ${vo.name}</td>
 														</tr>
 
 
@@ -198,30 +221,17 @@
 											</div>
 
 											<!-- 본문 -->
-											<div class="row mx-3" id="Body">
-												<div class="col-lg-12">
-													<table class="table table-bordered">
-														<tr>
-															<th class="table-light" style="width: 10%">시행일자</th>
-															<td><input type="date" class="form-control w-25" id="startDate" name="start_date"></td>
-														</tr>
-														
-														<tr>
-															<th class="table-light">제목</th>
-															<td><input type="text" class="form-control w-75" id="title" name="doc_title"></td>
-														</tr>
-														<tr>
-															<td colspan="2">
-																<div>
-																	<textarea id="summernote" name="doc_contents"></textarea>
-																</div>
-															</td>
-
-														</tr>
-													</table>
-												</div>
-
-											</div>
+											<c:choose>
+												<c:when test="${param.k eq 'l'}">
+												<c:import url="./temp_l.jsp"></c:import>
+												</c:when>
+												<c:when test="${param.k eq 'e'}">
+												<c:import url="./temp_e.jsp"></c:import>
+												</c:when>
+												<c:otherwise>
+												<c:import url="./temp_d.jsp"></c:import>
+												</c:otherwise>
+											</c:choose>
 											<!-- 본문 end  -->
 
 											<div class="row mx-3 my-3">
@@ -279,9 +289,8 @@
 				<div class="modal-dialog modal-lg" style="max-width: 60%; width: 60%;">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Basic Modal</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+							<h5 class="modal-title">결재선</>
+					
 						</div>
 						<div class="modal-body style="max-height: 300px; overflow-y: auto;">
 						
@@ -347,7 +356,7 @@
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-primary" id="modalSave">Save
-								changes</button>
+								</button>
 						</div>
 					</div>
 				</div>
@@ -382,6 +391,15 @@
 				alert("최종 결재자는 필수 값입니다");
 				return false;
 			}
+			
+			let id1 = $("#id1").text();
+			let id2 = $("#id2").text();
+
+			if (id2 > id1) {
+			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
+			    alert("잔여연차가 부족합니다.");
+			    return false; 
+			   }
 				
 			$("#frm").submit();
 	
@@ -392,6 +410,21 @@
 
 			$("#temp_save").val("Y");
 			$("#approval_state").val("T");
+			
+			if($('#lastApp').val()==""){
+				alert("최종 결재자는 필수 값입니다");
+				return false;
+			}
+			
+			let id1 = $("#id1").text();
+			let id2 = $("#id2").text();
+
+			if (id2 > id1) {
+			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
+			    alert("잔여연차가 부족합니다.");
+			    return false; // 폼 제출 취소
+			   }
+			
 			$("#frm").submit();
 
 		});

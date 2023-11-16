@@ -20,7 +20,7 @@
    
 	<update id="setScheduleUpdate" parameterType="ScheduleVO">
 		UPDATE SCHEDULE_BASE SET
-  		EMP_NO=#{emp_no}, SCHEDULE_START_TIME=#{schedule_start_time}, SCHEDULE_END_TIME=#{schedule_end_time}, SCHEDULE_CONTENTS=#{schedule_contents}, SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_KIND=#{schedule_kind},MOD_ID=#{mod_id},MOD_DATE=sysdate()
+  		EMP_NO=#{emp_no}, SCHEDULE_START_TIME=#{schedule_start_time}, SCHEDULE_END_TIME=#{schedule_end_time}, SCHEDULE_CONTENTS=#{schedule_contents}, SCHEDULE_TITLE=#{schedule_title}, CD=#{cd},MOD_ID=#{mod_id},MOD_DATE=sysdate()
   		WHERE SCHEDULE_NO=#{schedule_no}
 	</update>
 

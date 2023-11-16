@@ -20,7 +20,8 @@
 .add-btn{width:80px;
 position:relative;
 left:1070px;
-top:30px}
+top:30px
+}
 .del-btn{width:80px;
 position:relative;
 left:1170px;
@@ -165,7 +166,6 @@ left:150px;
 							</div>
 							</tbody>
 													<!-- Modal -->
-						<form id="updateForm" action="./update" method="post">
 							<div class="modal fade" id="updateFacilityModal" tabindex="-1" aria-labelledby="updateFacilityModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">

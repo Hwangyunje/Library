@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
-		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-			<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+		<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 				<!DOCTYPE html>
 				<html>
 
@@ -13,6 +11,11 @@
 				<style>
 				    th, td {
 				        text-align: center;
+				       
+				    }
+				    
+				    .card{
+				    	height:1000px;
 				    }
 				</style>
 				</head>
@@ -40,6 +43,7 @@
 												<div class="col-lg-12">
 													<div class="card">
 													
+														<h1 class="my-5 " align="center">${kindName}</h1>
 													<table class="table mt-5">
 														    <colgroup>
 													        <col style="width: 15%;">
@@ -61,17 +65,26 @@
 																<td>${d.reg_date}</td>
 																<td>${d.grp_cd}</td>
 																
+																
 																<c:choose>
+																<c:when test="${param.k ne 'temp'}">
+																<td><a style="text-decoration: none; color: black;" href="./draftDetail?k=${param.k}&doc_no=${d.doc_no}">${d.doc_title}</a></td>
+																</c:when>
+																<c:otherwise>
+																<td><a style="text-decoration: none; color: black;" href="./update?doc_no=${d.doc_no}">${d.doc_title}</a></td>
+																</c:otherwise>
+																</c:choose>
+<%-- 																<c:choose>
 																  <c:when test="${d.grp_cd eq '업무기안'}">
 																   	<td><a style="text-decoration: none; color: black;" href="./draftDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																  </c:when>
 																  <c:when test="${d.grp_cd eq '휴가신청서'}">
-																    <td><a style="text-decoration: none; color: black;" href="./leaveDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
+																    <td><a style="text-decoration: none; color: black;" href="./draftDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																  </c:when>
 																  <c:when test="${d.grp_cd eq '지출결의서'}">
 																 	 <td><a style="text-decoration: none; color: black;" href="./expenseDetail?doc_no=${d.doc_no}">${d.doc_title}</a></td>
 																  </c:when>
-																</c:choose>
+																</c:choose> --%>
 																
 																<td>${d.doc_no}</td>
 																<td>${d.approval_state}</td>
@@ -81,6 +94,40 @@
 															</tbody>
 															</table>	
 											
+											
+												<nav class="nav justify-content-center" aria-label="Page navigation example">
+												  <ul class="pagination">
+												    <li class="page-item ${pager.pre?'':'disabled'}">
+												      <a class="page-link" href="./list?k=${param.k}&page=${pager.startNum-1}&kind=${pager.kind}&search=${pager.search}" aria-label="Previous">
+												        <span aria-hidden="true">&laquo;</span>
+												      </a>
+												    </li>
+												    <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+													    <li class="page-item"><a class="page-link" href="./list?k=${param.k}&page=${i}&kind=${pager.kind}&search=${pager.search}">${i}<a></a></li>
+												    </c:forEach>
+												    <li class="page-item ${pager.next?'':'disabled'}">
+												      <a class="page-link" href="./list?k=${param.k}&page=${pager.lastNum+1}&kind=${pager.kind}&search=${pager.search}" aria-label="Next">
+												        <span aria-hidden="true">&raquo;</span>
+												      </a>
+												    </li>
+												  </ul>
+												</nav>
+													<div class="search">
+														<form method="get" action="./list">
+															<table class="pull-right">
+															<input type="hidden" name="k" value="${param.k}"/>
+															<%-- <input type= "hidden" name=page value="${pager.page}"/> --%>
+																<tr>
+																	<td><select class="form-select" name="kind" >
+																			<option value="grp_cd">결재양식</option>
+																			<option value="title">제목</option>
+																			<option value="cotents">내용</option>
+																			<option value="state">상태</option>
+																	</select></td>
+																	<td><input type="text" class="form-control" name="search" maxlength="100" value="${pager.search}"></td>
+																	<td><button type="submit" class="btn btn-danger">검색</button></td>
+																</tr>
+															</table>
 														
 														
 													</div>

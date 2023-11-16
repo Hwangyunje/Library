@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +13,6 @@
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
 
-  
 <link href="/css/doc.css" rel="stylesheet">
 </head>
 
@@ -31,39 +30,86 @@
 				<main id="main" class="main">
 
 					<section class="section dashboard">
-
+					
 						<div class="container">
-							<form action="./expense" method="post" id="frm" enctype="multipart/form-data">
+							<form action="/approval/update" method="post" id="frm" enctype="multipart/form-data">
+								
+								<input type="hidden" name="doc_no" value="${docVO.doc_no}">
+					
+							
+								<input type="hidden" id="approval_state" name="approval_state" value="R">
+								<input type="hidden" id="temp_save" name="temp_save" value="N">
+								<input type="hidden" id="midApp" name="midApp" value="">
+								<input type="hidden" id="lastApp" name="lastApp" value="">
 
+	
+	 							
+			<sec:authentication property="principal" var="vo"></sec:authentication> 
 
-							<div class="row">
-								<!-- 각 영역 크기조절하기 -->
-								<div class="col-lg-12">
-									<div class="card">
-										<h1 class="my-5" align="center">휴가 신청서</h1>
+						
 
-										<!-- 상단 왼쪽 strart -->
+								<div class="row">
+									<!-- 각 영역 크기조절하기 -->
+									<div class="col-lg-12">
+										<div class="card">
+											<h1 class="my-5 " align="center">
+											<c:choose>
+												<c:when test="${docVO.grp_cd eq 'H'}">
+												휴가신청서
+												</c:when>
+												<c:when test="${docVO.grp_cd eq 'B'}">
+												지출결의서
+												
+												</c:when>
+												<c:otherwise>
+												업무 기안
+												
+												</c:otherwise>
+											</c:choose>
+											</h1>
+
+											<!-- 상단 왼쪽 strart -->
 											<div class="row grid text-center mx-3">
 												<div class="col-lg-2">
 													<table class="table table-bordered">
 
 														<tr>
 															<th class="table-light">기안자</th>
-															<td>홍길동</td>
+															<td>${vo.name}</td>
 														</tr>
 
 
 														<tr>
 															<th class="table-light">소속</th>
-															<td>총무부</td>
+															
+															<td>
+															<c:choose>
+																  <c:when test="${vo.emp_team eq 'A'}">
+																    대표
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'B'}">
+																    운영과
+																  </c:when>
+																  <c:when test="${vo.emp_team eq 'C'}">
+																   정책과
+																  </c:when>
+																   <c:when test="${vo.emp_team eq 'D'}">
+																   서비스과
+																  </c:when>
+																  <c:otherwise>
+																    가발령
+																  </c:otherwise>
+																</c:choose>
+															</td>
 														</tr>
+
 														<tr>
 															<th class="table-light">기안일</th>
-															<td>2023-10-12</td>
+															<td>${docVO.mod_date}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
-															<td>1</td>
+															<td>${docVO.doc_no}</td>
 														</tr>
 
 													</table>
@@ -85,12 +131,12 @@
 
 
 														<tr id="sign">
-															<td><img id="sign_img" src="/files/draft/공지3.PNG"></td>
+															<td><img id="sign_img" src="/files/sign/${docVO.sign_name}"></td>
 														</tr>
 														
 														<tr>
 
-															<td>r</td>
+															<td>${docVO.emp_team} ${docVO.name}</td>
 														</tr>
 
 
@@ -114,7 +160,8 @@
 
 														<tr id="sign">
 	
-															<td> </td>
+														<td> </td>
+
 														</tr>
 														<tr id="lastTr">
 
@@ -155,104 +202,93 @@
 
 
 												<!-- 상단 오른쪽 end -->
-										</div>
-										
-										<!-- 본문 -->
-											<div class="row mx-3 text-center">
-												<div class="col-lg-12">
-												<table class="table table-bordered">
-													<tr>
-														<th class="table-light" style="width: 12%">제목</th>
-														<td></td>
-													</tr>
-													<tr>
-														<th class="table-light">휴가종류</th>
-														<td></td>
-													</tr>
-													<tr>
-														<th class="table-light">기간 및 일시</th>
-														<td></td>
-													</tr>
-													<tr>
-														<th class="table-light"">반차</th>
-														<td>
-															
-														</td>
-													</tr>
-													<tr>
-														<th class="table-light">연차일수</th>
-														<td></td>
-													</tr>
-													<tr>
-														<th class="table-light">참조자</th>
-														<td></td>
-													</tr>
-													<tr >
-														<td colspan="2"> <div><textarea id="summernote"></textarea></div></td>
-														
-													</tr>
-												</table>	
-												</div>
-												
 											</div>
-										<!-- 본문 end  -->
-									
-									<div class="row mx-3 my-3">
-										<div class="col-lg-12">
-										
-																	<!-- file -->
-										
-										<div id="fileList"></div>
+
+											<!-- 본문 -->
+											<c:choose>
+												<c:when test="${docVO.grp_cd eq 'H'}">
+												
+												<c:import url="./temp_l.jsp"></c:import>
+												</c:when>
+												<c:when test="${docVO.grp_cd eq 'B'}">
 											
-									
-										
-										<div class="mb-3">
-											<button type="button" class="btn btn-outline-primary" id="fileAdd">File추가</button>
-										</div>
-										
-														<!-- button  -->
+												<c:import url="./temp_e.jsp"></c:import>
+												</c:when>
+												<c:otherwise>
+												
+												<c:import url="./temp_d.jsp"></c:import>
+												</c:otherwise>
+											</c:choose>
+											<!-- 본문 end  -->
+
+											<div class="row mx-3 my-3">
+												<div class="col-lg-12">
+
+													<!-- file -->
+
+													<div id="fileList"></div>
+
+
+													<div class="mb-3">
+														<button type="button" class="btn btn-outline-primary"
+															id="fileAdd">File추가</button>
+													</div>
+													
+													<div class="my-5">
+													<c:forEach items="${docVO.fileVOs}" var="f">
+													<c:if test="${not empty f.file_no}">
+															<span class="alert alert-primary me-2" role="alert" id="${f.file_no}" >
+																첨부파일 : ${f.file_oriName}
+															 </span>
+														<span class="delets" data-delete-num="${f.file_no}" >x</span>
+													</c:if>
+													</c:forEach>
+													</div>
+													<div class="my-3">
+													<!-- button  -->
 													<button type="button" id="doc_send" class="btn btn-primary btn-sm">결재요청</button>
 													<button type="button" id="temp_send" class="btn btn-primary btn-sm">임시저장</button>
 													<button type="button" class="btn btn-primary btn-sm">취소</button>
 													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
 															data-bs-target="#basicModal" id ='btnGetMem'>결재선</button> 
-											
+													</div>
+															
+
+												</div>
+
+
+											</div>
+
+
+
 										</div>
-										
-										
-										</div>
-									
-									
+
 
 									</div>
-									
-									
+
+
+
+
 								</div>
-								
-		
-		
-	
-							</div>
-						</form>
+							</form>
+
 
 						</div>
 			</div>
-			
 
 			</section>
 
 			</main>
 			<!-- End #main -->
-			
+
 			<!-- 모달 -->
 
 			<div class="modal fade" id="basicModal" tabindex="-1">
 				<div class="modal-dialog modal-lg" style="max-width: 60%; width: 60%;">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Basic Modal</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+							<h5 class="modal-title">결재선</h5>
+						
 						</div>
 						<div class="modal-body style="max-height: 300px; overflow-y: auto;">
 						
@@ -318,7 +354,7 @@
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-primary" id="modalSave">Save
-								changes</button>
+								</button>
 						</div>
 					</div>
 				</div>
@@ -326,8 +362,6 @@
 			
 
 			<!-- End Basic Modal-->
-			
-			
 
 
 
@@ -342,11 +376,36 @@
 
 
 	<c:import url="/WEB-INF/views/layout/footjs.jsp"></c:import>
-	
-	
 
-	
+
+
+
 	<script src="/js/file.js"></script>
+	<script type="text/javascript">
+	
+		$('#doc_send').click(function() {
+	
+			if($('#lastApp').val()==""){
+				alert("최종 결재자는 필수 값입니다");
+				return false;
+			}
+				
+			$("#frm").submit();
+	
+		});
+	
+	
+		$('#temp_send').click(function() {
+
+			$("#temp_save").val("Y");
+			$("#approval_state").val("T");
+			$("#frm").submit();
+
+		});
+		
+			
+	
+	</script>
 	<script src="/js/appLine.js"></script>
 </body>
 

@@ -9,4 +9,3 @@ if (text.length > maxLength) {
   text = text.substring(0, maxLength) + "...";
   $('#board_title').html(text);
 }
-

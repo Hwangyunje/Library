@@ -21,4 +21,5 @@ public class ReservationVO extends CommonVO{
 	private Date res_end_time;
 	private String res_purpose;
 
+
 }

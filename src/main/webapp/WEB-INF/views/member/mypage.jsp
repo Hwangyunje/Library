@@ -52,8 +52,8 @@
 						<div class="form-group">
 							<br>
 							<label for="photo">프로필사진</label>
-							<img src="../../upload/${photo.file_name}"  alt="프로필사진" class="rounded-profile-img">
-							<!-- <input type="file" name="photo" class="form-control" id="photo	" aria-describedby="photoHelp" readonly/> -->
+							<img src="assets/img/profile-img.jpg"  alt="프로필사진" class="rounded-profile-img">
+							<!-- "../../upload/${photo.file_name}" <input type="file" name="photo" class="form-control" id="photo	" aria-describedby="photoHelp" readonly/> -->
 							<small id="photoHelp" class="form-text text-muted"></small>
 						</div>
 						

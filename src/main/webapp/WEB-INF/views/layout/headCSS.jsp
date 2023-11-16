@@ -25,7 +25,7 @@
 <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.6/css/ui.jqgrid.css"> -->
   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.6/jquery.jqGrid.min.js"></script>
+
 
 <!-- Template Main CSS File -->
 <link href="/assets/css/style.css" rel="stylesheet">
@@ -40,14 +40,7 @@
 
 
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/redmond/jquery-ui.css" type="text/css" />
-        <!-- jqGrid CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/jqgrid/4.6.0/css/ui.jqgrid.css" type="text/css" />
-       <!-- The JQuery UI code -->
-<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js" /></script>
-       <!-- The jqGrid language file code-->
-<script type="text/javascript" src="//cdn.jsdelivr.net/jqgrid/4.6.0/i18n/grid.locale-kr.js" /></script>
-       <!-- The atual jqGrid code -->
-<script type="text/javascript" src="//cdn.jsdelivr.net/jqgrid/4.6.0/jquery.jqGrid.src.js" /></script>
+
         
 
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -16,7 +17,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 	import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -52,8 +56,14 @@ import lombok.extern.slf4j.Slf4j;
 		//private FileManager fileManager;
 		private FileManagerProfile fileManagerProfile;
 		//이메일 전송	
+
+
 		@Autowired
-		private JavaMailSender javaMailSender;
+		private JavaMailSender mailSender;
+		//보내는사람
+		@Value("${spring.mail.username}")
+		private String sender;
+
 		
 		@Autowired
 		private PasswordEncoder passwordEncoder;
@@ -63,9 +73,7 @@ import lombok.extern.slf4j.Slf4j;
 		private String filePath;
 			
 	
-//		@Value("${app.member.photo}")
-//		private String photo;
-		
+
 	
 		//관리자멤버리스트
 		   public List<MemberVO> getAdminMemList(MemberVO memberVO)throws Exception {
@@ -91,11 +99,6 @@ import lombok.extern.slf4j.Slf4j;
 		    }
 		   
 		
-		// 사원번호 모달에 전송
-		public String getEmpNoModal(MemberVO memberVO) {
-		    return memberVO.getEmp_no();
-		}
-		
 	
 		//검증메서드
 		public boolean getMemberError(MemberVO memberVO, BindingResult bindingResult) throws Exception{
@@ -115,15 +118,9 @@ import lombok.extern.slf4j.Slf4j;
 			return check;
 		}
 		
-		
-		//코드를 코드명이랑 매칭해서 변경
-//		public Map<String, String> getCodeName(){
-//			Map<String, String> codeName = new HashMap<>();
-//			codeName.put(null, null)
-//		}	 
 
 
-	
+		//회원가입
 		 @Transactional(rollbackFor = Exception.class)
 		    public int memJoin(MemberVO memberVO, Model model) throws Exception {
 		        memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
@@ -133,9 +130,28 @@ import lombok.extern.slf4j.Slf4j;
 		        Map<String, Object> map = new HashMap<>();
 		        map.put("roleNum",memberVO.getEmp_position());
 		        result = memberDAO.setMemberRole(map);
-		        return result;
+	        return result;
 		    }   
 		 	
+		 //사원번호페이지
+//		 public String getNewEmpNo(String emp_no)throws Exception{
+//			
+//			 //MemberVO EmpNo = new MemberVO(memberVO.getEmp_no());
+//			 MemberVO EmpNo = memberDAO.getNewEmpNo(null)
+//			 log.info("====사원번호페이지:{}=====", emp_no);
+//			 
+//			 return emp_no; 
+//			 
+//		 }
+//	
+		 public String getNewEmpNo(MemberVO memberVO)throws Exception{
+			String EmpNo = memberDAO.getNewEmpNo(memberVO);	
+			 log.info("====사원번호페이지:{}=====", EmpNo);
+			 return EmpNo; 
+			 
+		 }
+	
+		
 		 
 		 //이미지저장
 		 public boolean setMemImage(MultipartFile photo, MemberVO memberVO)throws Exception{
@@ -306,13 +322,6 @@ import lombok.extern.slf4j.Slf4j;
 			}
 	
 
-			
-			//모달
-//			public String memjoin()throws Exception{
-//				String empNo = memberDAO.memJoin(emp_no);
-//				return empNo;
-//			}
-			
 			   //아이디찾기
 			   public MemberVO  findEmpNo(String name, String phone)throws Exception{
 				   log.info(phone);
@@ -321,13 +330,84 @@ import lombok.extern.slf4j.Slf4j;
 				   
 			   }
 			   
-			   //비밀번호 찾기
-			   public MemberVO findPassword(String emp_no, String phone)throws Exception{
-				   log.info(phone);
-				   log.info(emp_no);
-				   return memberDAO.findEmpNo(emp_no, phone);
-			   }
+				   //비밀번호 찾기
+				   public String findPassword(String emp_no, String email)throws Exception{
+					   
+					   MemberVO memberVO = memberDAO.findPassword(emp_no, email);
+					   
+					   if(memberVO == null) {
+						   throw new UsernameNotFoundException("이메일과 일치하는 사용자를 찾지 못 하였습니다 :"+ email);
+					   }else {
+						//임시비밀번호 암호화
+						//String tempPassword = passwordEncoder.encode(createTempPassword());
+						String tempPassword = createTempPassword();
+						log.info("====임시번호{}====",tempPassword);
+						//임시비밀번호 저장
+						//MemberVO saveTempPassword = new MemberVO();
+						memberVO.setPassword(tempPassword);
+						//이메일 정보 저장
+						memberVO.setEmail(email);
+						//saveTempPassword.setPassword(tempPassword);
+					    //임시비밀번호 db업데이트
+	
+						memberDAO.updateTempPassword(memberVO);
+				        log.info("====임시번호memberVO:{}====",memberVO.toString());
+				               
+			            MimeMessage mimeMessage = mailSender.createMimeMessage();
+			            MimeMessageHelper  helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+			            helper.setFrom(sender);
+			            log.info("===보낼Email:{}======", sender);
+			            helper.setTo(memberVO.getEmail());
+			            log.info("===받을Email:{}======", memberVO.getEmail());
+			            helper.setSubject(memberVO.getEmp_no()+"님 임시 비밀번호 발급입니다.");//이메일제목
+			            
+			            // 개행 문자를 이용하여 여러 줄로 나눠서 메일 내용을 구성.. \n 줄바꿈
+			            String emailText = 	"임시비밀번호 입니다.\n\n" +
+			                                  tempPassword + "\n\n" +
+			                                  "로그인 후 비밀번호를 변경해 주세요.";
+			            helper.setText(emailText);
+			            
+			            log.info("====임시번호2:{}====",tempPassword);
+			            mailSender.send(mimeMessage);
+//			            //메세지 생성하고 보낼 메일 설정 저장
+//			            //javamailsender 클래스
+//			            SimpleMailMessage message = new SimpleMailMessage();
+//			          
+//			            message.setTo(email);//받을이메일
+//			            message.setFrom(sender);//보내는사람
+//			            log.info("====보내는사람:{}====",sender);
+//			            message.setSubject(memberVO.getName()+" :님 임시 비밀번호 발급입니다.");//이메일제목
+//			            message.setText("임시비밀번호 입니다. 로그인 후 비밀번호를 변경해 주세요: " + tempPassword);
+//			            
+//			            javaMailSender.send(message);
+//			            log.info("====메일메시지발송{}====",message.toString());
 
+			            return "임시 비밀번호를 이메일로 보냅니다.";
+			        }
+			    }
+				   
+				   public static String createTempPassword() {
+					    char pwCollectionSpCha[] = new char[] {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
+					    char pwCollectionNum[] = new char[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+					    char pwCollectionAll[] = new char[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+					            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')'};
+					    return getRandPw(1, pwCollectionSpCha) + getRandPw(8, pwCollectionAll) + getRandPw(1, pwCollectionNum);
+					}
+
+					public static String getRandPw(int size, char[] pwCollection) {
+					    String ranPw = "";
+					    for (int i = 0; i < size; i++) {
+					        int selectRandomPw = (int) (Math.random() * (pwCollection.length));
+					        ranPw += pwCollection[selectRandomPw];
+					    }
+					    return ranPw;
+					}
+
+			   
+			   
+
+				  
 
 			   
 }

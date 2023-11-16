@@ -20,7 +20,7 @@
    
 	<update id="setReservationUpdate" parameterType="ScheduleVO">
 		UPDATE RESERVATION_BASE SET
-  		EMP_NO=#{emp_no}, RES_START_TIME=#{res_start_time}, RES_END_TIME=#{res_end_time}, RES_PURPOSE=#{res_purpose},GRP_CD=#{grp_cd},MOD_ID=#{mod_id},MOD_DATE#{mod_date}
+  		EMP_NO=#{emp_no}, RES_START_TIME=#{res_start_time}, RES_END_TIME=#{res_end_time}, RES_PURPOSE=#{res_purpose},GRP_CD=#{grp_cd},MOD_ID=#{mod_id},MOD_DATE#{mod_date},CD=#{cd}
   		WHERE RESERVATION_NO=#{reservation_no}
 	</update>
 

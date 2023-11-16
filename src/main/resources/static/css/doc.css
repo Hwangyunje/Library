@@ -37,6 +37,14 @@
         height: 100px;
     }
     
+    #midSign {
+        height: 100px;
+    }
+    
+     #lastSign {
+        height: 100px;
+    }
+    
     #sign_img{
 		height: 80px;
 		width: 140px;
@@ -47,5 +55,9 @@
     }
     
         #Body th {
+        text-align: center;
+    }
+    
+       .Ttable th {
         text-align: center;
     }

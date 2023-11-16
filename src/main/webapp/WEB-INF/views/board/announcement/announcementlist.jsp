@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 			<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 				<!DOCTYPE html>
@@ -96,12 +95,15 @@ th {
 td:first-child, th:first-child {
 	border-left: none;
 }
+.lock{
+	max-width: 3%;
+	max-height: 3%;
+}
 </style>
 
 				<body id="page-top">
-					<!-- Page Wrapper -->
 					<div id="wrapper">
-						<!-- sidebar -->
+
 						<c:import url="/WEB-INF/views/layout/sidebar.jsp"></c:import>
 
 						<div id="content-wrapper" class="d-flex flex-column">
@@ -115,7 +117,6 @@ td:first-child, th:first-child {
 										<h1 class="mb-3 text-center">공지사항</h1>
 
 										<table class="table table-Info table-sm">
-											<!-- Latest compiled and minified CSS -->
 											<thead>
 												<th class="board_no"> 번호 </th>
 												<th class="board_title">제목</th>
@@ -126,10 +127,24 @@ td:first-child, th:first-child {
 											<tbody>
 												<c:forEach items="${list}" var="d" varStatus="i">
 													<tr>
-
-														<td class="board_no">${d.board_no}</td>
-														<td><a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a></td>
-														<td class="reg_id">${d.board_wirter}</td>
+														<td class="board_no" id="kind_${d.board_no}" data-kind="${d.board_kind}">${d.board_no}</td>
+														<td class="kind" id="kind_${d.board_no}" data-kind="${d.board_kind}">
+															<c:choose>
+																<c:when test='${d.board_kind == "on"}'>
+																	<sec:authorize access="hasRole('ADMIN') or ${d.reg_id eq member.emp_no}">
+																		<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+																	</sec:authorize>
+																	<sec:authorize access="!hasRole('ADMIN') and ${d.reg_id ne member.emp_no}">
+																		<img class="lock" src="/assets/img/lock.png" alt="lock">
+																		<span>읽기 권한이 없습니다.</span>
+																	</sec:authorize>
+																</c:when>
+																<c:when test='${d.board_kind == "off"}'>
+																	<a href="./annDetail?board_no=${d.board_no}">${d.board_title}</a>
+																</c:when>
+															</c:choose>
+														</td>
+														<td class="reg_id" id="level">${d.board_wirter}</td>
 														<td>${d.reg_date}</td>
 														<td class="board_views">${d.board_views}</td>
 													</tr>
@@ -138,6 +153,7 @@ td:first-child, th:first-child {
 										</table>
 
 										<nav aria-label="Page navigation example">
+
 											<ul class="pagination">
 												<c:if test="${pager.pre}">
 													<li class="page-item"><a class="page-link" href="./announcement?page=${pager.startNum-1}" aria-label="Previous">

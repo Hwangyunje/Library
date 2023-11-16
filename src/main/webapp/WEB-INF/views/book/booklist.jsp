@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
-<style type="text/css">
+<style>
 .add-btn{width:80px;
 position:relative;
 left:1050px;
@@ -115,7 +115,7 @@ top:-10px}
 							   </c:forEach>
 							</tbody>
 							</table>
-						<div class=""></div>
+						
 						</div>
 					</div>
 

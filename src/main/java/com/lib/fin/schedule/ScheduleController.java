@@ -12,13 +12,9 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
@@ -39,6 +35,7 @@ public class ScheduleController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/schedule/schedule");
 		mv.addObject("emp_no", memberVO.getEmp_no());
+		
 		/*
 		List<Map<String, Object>> events = scheduleService.getScheduleList();
 
@@ -72,8 +69,10 @@ public class ScheduleController {
 		List<Map<String, Object>> scheList = scheduleService.getScheduleList(params);
 
 		resultJson.put("list", scheList );
-
-		response.getWriter().write(resultJson.toJSONString());
+		log.info("한글  {}", scheList);
+		response.setCharacterEncoding("UTF-8");
+		response .getWriter().write(resultJson.toJSONString());
+		
 	}
 	
 	

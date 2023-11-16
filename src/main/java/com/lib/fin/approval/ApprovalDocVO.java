@@ -24,10 +24,20 @@ public class ApprovalDocVO extends CommonVO {
 	private Date end_date;
 	private String adtn_info1;
 	private String adtn_info2;
+	private String adtn_info3;
 	private String temp_save;
 	
 	private String emp_team;
 	private String name;
+	private String sign_name;
 
 	private List<ApprovalFileVO> fileVOs;
+	
+	public Date getEnd_date() {
+		if(this.end_date == null) {
+			return new Date(System.currentTimeMillis());
+		}
+		
+		return this.end_date;
+	}
 }

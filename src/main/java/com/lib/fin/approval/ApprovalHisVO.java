@@ -17,5 +17,8 @@ public class ApprovalHisVO extends CommonVO{
 	private Integer approval_level;
 	private String approval_state;
 	
+	private String name;
+	private String emp_team; 
+	private String sign_name;
 
 }

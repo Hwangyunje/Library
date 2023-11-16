@@ -15,4 +15,6 @@ public class AttendanceVO extends CommonVO{
 	private Date gtw_time;
 	private Date lw_time;
 	private String status;
+	private Long overtime;
+	private Long dayWorkTime;
 }

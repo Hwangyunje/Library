@@ -7,12 +7,13 @@
 	<typeAliases>
 	<typeAlias type="com.lib.fin.approval.ApprovalDocVO" alias="ApprovalDocVO"/>
 	<typeAlias type="com.lib.fin.approval.ApprovalFileVO" alias="ApprovalFileVO"/>
+	<typeAlias type="com.lib.fin.commons.FileVO" alias="FileVO"/>
 
 	<typeAlias alias="ScheduleVO" type="com.lib.fin.schedule.ScheduleVO"/>
 	<typeAlias type="com.lib.fin.book.BookVO" alias="BookVO"/>
 	<typeAlias type="com.lib.fin.facility.FacilityVO" alias="FacilityVO"/>
 	<typeAlias type="com.lib.fin.reservation.ReservationVO" alias="ReservationVO"/>
-	
+
 	<typeAlias type="com.lib.fin.approval.ApprovalHisVO" alias="ApprovalHisVO"/>
 	<typeAlias type="com.lib.fin.commons.Pager" alias="Pager"/>
 	<typeAlias type="com.lib.fin.member.MemberVO" alias="MemberVO"/>	

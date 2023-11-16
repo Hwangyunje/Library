@@ -120,18 +120,18 @@
 					</div> -->
 					<br> 
 					<br>
-				<button type="submit" id="joinModal" class="btn btn-primary">회원가입</button>  
+				<button type="submit" id="joinModal" class="btn btn-primary">회원가입</button>
 		
 			 </form:form>
 								<!-- 사원번호 모달 버튼 -->
-								<!-- <button type="button" id="joinModal" data-emp_no="${empNo}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empNoModal">
+							<!-- <button type="button" id="joinModal" data-emp_no="${empNo}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empNoModal">
 									회원가입
-									</button> 
+									</button>  -->
 								
 									
 								
 							
-								<div class="modal fade" id="empNoModal" tabindex="-1">
+								<!-- <div class="modal fade" id="empNoModal" tabindex="-1">
 									<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -148,11 +148,9 @@
 									</div>
 									</div>
 								</div>  	
-								
+								 -->
 									
-									<script>
-											let emp_no = "${empNo}";
-										console.log("${emp_no}");
+									<!-- <script>
 										$(document).ready(function() {
 											$('#empNoModal').modal('show');
 
@@ -171,7 +169,7 @@
 													type: 'POST',
 													data: formData,
 													success: function(data) {	
-													console.log('emp_no:',data.emp_no)
+													console.log('응답 데이터:', data);
 													if(data.emp_no){
 														$('#emp_info').text('당신의 사원번호는 ' + data.emp_no + '입니다.');
 														}
@@ -180,13 +178,14 @@
 													},
 													error: function() {
 														// alert('사원번호 가져오기에 실패했습니다.');
+														console.error('Ajax 요청 실패');
 													}
 												});
 											});
-										}); -->
+										}); 
 
 
-										</script>	
+										</script>	 -->
 									
 									 
 									

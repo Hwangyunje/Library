@@ -33,7 +33,7 @@ $(".delets").each(function(i,e){
             type:'GET',
             url: "./fileDelete",
             data:{
-                fileNo:num
+                file_no:num
             },
             success:function(result){
                 if(result.trim()=='1'){
@@ -80,7 +80,7 @@ $("#summernote").summernote({
 
         },
         onMediaDelete:function(files){
-            let path = $(files[0]).attr("src"); // /resources/upload/notice/파일명
+            let path = $(files[0]).attr("src");
             console.log("del");
             $.ajax({
                 type:'post',

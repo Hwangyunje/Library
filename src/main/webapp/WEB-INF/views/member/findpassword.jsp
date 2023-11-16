@@ -33,10 +33,10 @@
 
                         <div class="pt-4 pb-2">
                             <h5 class="card-title text-center pb-0 fs-4" style="font-weight: bold;">비밀번호찾기</h5>
-                            <p class="text-center small">사원번호와 이메일을 입력하세요. 임시 비밀번호를 발급 해 드리겠습니다.</p>
+                            <p class="text-center small">사원번호와 회원가입시 입력한 이메일을 입력하세요.<br> 임시 비밀번호를 발급해 드리겠습니다.</p>
                           </div>
 				
-                          <form action="/member/findEmpNo" method="post" enctype="multipart/form-data">		 
+                          <form action="/member/findPassword" method="post" enctype="multipart/form-data">		 
                          
                             <div class="form-group">
                             <label for="name">사원번호</label>
@@ -48,15 +48,15 @@
 			
 					  <div class="form-group">
 						<br>
-						<label for="phone">전화번호</label>
-						<input id="phone" type="tel" placeholder="010-1234-5678" name="phone" pattern="[0-1]{3}-[0-9]{4}-[0-9]{4}" class="form-control"/>
+						<label for="email">이메일</label>
+						<input id="email" type="email" name="email"  class="form-control"/>
 					</div>
 
 						
 				    
 				
 					<br>
-			    <button type="submit" class="btn btn-primary">사원번호 찾기</button> 
+			    <button type="submit" class="btn btn-primary">임시 비밀번호 발급</button> 
                 <button type="reset" class="btn btn-danger ">취소</button> 
 					</form>
 					              

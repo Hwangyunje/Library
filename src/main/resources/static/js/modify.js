@@ -19,10 +19,10 @@ $(document).ready(function () {
 
     $(".attachment").click(function () {
 
-        var fileNo = $(this).attr("id").replace("file_","")
+        let fileNo = $(this).attr("id").replace("file_","");
         //.replace("file_", "");
         console.log("id : "+fileNo);
-        var confirmation = confirm("파일을 삭제하시겠습니까?");
+        let confirmation = confirm("파일을 삭제하시겠습니까?");
 
         if (confirmation) {
             //fileId 전송
@@ -45,8 +45,8 @@ $(document).ready(function () {
     });
 
     function uploadImages(files1) {
-        var formData = new FormData();
-        for (var i = 0; i < files1.length; i++) {
+        let formData = new FormData();
+        for (let i = 0; i < files1.length; i++) {
             formData.append("files1", files1[i]);
         }
 
@@ -57,8 +57,8 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                var imageUrls = data;
-                for (var i = 0; i < imageUrls.length; i++) {
+                let imageUrls = data;
+                for (let i = 0; i < imageUrls.length; i++) {
                     $('#board_content').summernote('insertImage', imageUrls[i]);
                 }
             },
@@ -69,7 +69,7 @@ $(document).ready(function () {
     }
 
     //   function deleteFile(fileNo) {
-    //     var confirmation = confirm("파일을 삭제하시겠습니까?");
+    //     let confirmation = confirm("파일을 삭제하시겠습니까?");
     //     if (confirmation) {
     //         $.ajax({
     //             type: "POST",
