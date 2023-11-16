@@ -128,6 +128,8 @@ public class MemberVO extends CommonVO implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+
 	
 
 	
