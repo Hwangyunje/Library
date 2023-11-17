@@ -247,7 +247,14 @@
                             left: '',
                             center: 'prev,title,next',
                             right: 'myCustomButton'
-                        },
+                        },setOption:('navLinks', {
+                            day: 'Custom Day Text',
+                            
+                            
+                            week: 'Custom Week Text'
+                                // 다른 옵션들도 필요에 따라 수정할 수 있습니다.
+                              }),
+
                         
                         events: schListJson,
                         
@@ -264,6 +271,7 @@
                              obj.title = info.event._def.title;
                              obj.start = info.event._instance.range.start;
                              obj.end = info.event._instance.range.end;
+                             obj.contents = info.event._def.extendedProps.contents;
                              events.push(obj);
   							 setScheduleupdate(obj);
                              console.log(events);

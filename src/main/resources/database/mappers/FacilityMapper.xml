@@ -8,7 +8,7 @@
 		values(0, #{grp_cd}, #{facility_name},#{facility_contents}, #{reg_id}, sysdate(), #{mod_id}, sysdate(), 'Y',#{cd});
    </insert>
    
-   <select id="getFacilitylist" parameterType="Pager" resultType="FacilityVO">
+   <select id="getFacilityList" parameterType="Map" resultType="FacilityVO">
    		SELECT * FROM FACILITY_BASE
    		WHERE USE_YN='Y'
    		ORDER BY GRP_CD ASC

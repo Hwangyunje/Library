@@ -1,6 +1,7 @@
 package com.lib.fin.facility;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +13,16 @@ public class FacilityServiceImp implements FacilityService {
 	@Autowired
 	private FacilityDAO facilityDAO;
 	@Override
-	public List<FacilityVO> getFacilityList(Pager pager)throws Exception{
+	public List<FacilityVO> getFacilityList(Map<String,Object> params, Pager pager)throws Exception{
+		
+		params.put("pager", pager);
+		
+		pager.setPerPage(5L);
+		pager.makeRowNum2();
+		Long total = facilityDAO.getTotal(params);
 		pager.makeRowNum();
-		pager.makePageNum(facilityDAO.getTotal(pager));
-		List<FacilityVO> list = facilityDAO.getFacilitylist(pager);
-		for (FacilityVO facilityVO : list) {			
 		
-		
-		}
-		return list;
+		return facilityDAO.getFacilityList(params);
 	}
 	@Override
 	public int getTotalFacilityCount() throws Exception{

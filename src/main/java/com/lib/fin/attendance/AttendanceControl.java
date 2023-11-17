@@ -101,6 +101,7 @@ public class AttendanceControl {
 		 
 		AttendanceVO work = attendanceService.checkWorkTime(param);
 		
+		
 		log.info("work = {}",work);
 		if(work!=null) {
 			status.put("status","출근전");
