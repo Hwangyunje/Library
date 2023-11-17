@@ -247,14 +247,7 @@
                             left: '',
                             center: 'prev,title,next',
                             right: 'myCustomButton'
-                        },setOption:('navLinks', {
-                            day: 'Custom Day Text',
-                            
-                            
-                            week: 'Custom Week Text'
-                                // 다른 옵션들도 필요에 따라 수정할 수 있습니다.
-                              }),
-
+                        },
                         
                         events: schListJson,
                         

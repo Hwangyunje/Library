@@ -3,9 +3,11 @@ package com.lib.fin.attendance;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 @Mapper
+@Component
 public interface AttendanceDAO {
 
 	int insertStartWork(String emp_no);

@@ -23,7 +23,7 @@
 			0
 			)
 	</insert>
-	<select id="checkWorkTime">
+	<select id="checkWorkTime" parameterType="AttendanceVO">
 	select 
 	count(*) from ATTENDANCE_BASE 
 	where emp_no = #{emp_no} AND reg_date = #{time}
@@ -37,7 +37,7 @@
 		update
 			ATTENDANCE_BASE
 		set
-			gtw_time = default
+			gtw_time = now()
 		where
 			emp_no = #{emp_no}
 			and TRUNC(reg_date) = TO_DATE(#{time})
