@@ -251,6 +251,7 @@
                         
                         events: schListJson,
                         
+                        
                        
                         
                         eventDrop: function (info){

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 @Mapper
-@Component
 public interface AttendanceDAO {
 
 	int insertStartWork(String emp_no);
