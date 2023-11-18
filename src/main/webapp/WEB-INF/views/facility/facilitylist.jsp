@@ -156,7 +156,8 @@ left:150px;
 								  
 							    </td>
 							    </form>
-							    <td class="tg-0pky mt-1">${vo.grp_cd}</td>
+							    <form id="updateForm" action="./update" method="post">
+								<td class="tg-0pky mt-1">${vo.grp_cd}</td>
 							    <td class="tg-0pky mt-1">${vo.cd}</td>
 							    <td class="tg-0pky mt-2">${vo.facility_name}</td>
 							    <td class="tg-0pky mt-3">${vo.facility_contents}</td><br>

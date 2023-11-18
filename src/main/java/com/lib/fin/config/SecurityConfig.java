@@ -61,6 +61,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 	              .antMatchers("/member/adminMemberPage").hasRole("ADMIN")
 	              .antMatchers("/member/adminDetailPage").hasRole("ADMIN")
 	              .antMatchers("/board/**").hasAnyRole("ADMIN", "USER")
+	              .antMatchers("/facility/getFacilitylist").hasRole("ADMIN")
+	              .antMatchers("/book/getBooklist").hasRole("ADMIN")
 	              //.antMatchers("/member/postLogin").authenticated()
 //	            
 	              .antMatchers("/").hasAnyRole("ADMIN", "USER")

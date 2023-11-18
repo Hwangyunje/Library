@@ -226,7 +226,7 @@
                         eventLimit: true,
                         editable:true,
 						droppable:true,
-						 dayMaxEvents: 1,
+					
 						customButtons: {
 
                             myCustomButton: {

@@ -210,7 +210,7 @@
 	      navLinks:true,
 	      eventLimit:true,
 	      editable:true,
-	      dayMaxEvents: 1,
+	      
 	      
 	      customButtons: {
 	    	  myResButton:{
