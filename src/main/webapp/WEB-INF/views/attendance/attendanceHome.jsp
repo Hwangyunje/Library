@@ -27,7 +27,7 @@ height:400px;
 position:relative;
 top:-400px;
 left:310px;
-width:900px;
+
 }
 .font-14{
 float:left;

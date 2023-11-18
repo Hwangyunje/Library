@@ -17,6 +17,6 @@ public class IndexController {
 	@GetMapping("/member/assets/img/logo.png")
 	public String getIndex1() {
 		
-		return "/index";
+		return "redirect:/";
 	}
 }
