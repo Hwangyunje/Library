@@ -81,7 +81,7 @@
 
 														<tr>
 															<th class="table-light">기안일</th>
-															<td> ${docVO.reg_date}</td>
+															<td> ${docVO.mod_date}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
@@ -190,7 +190,7 @@
 												<c:when test="${docVO.grp_cd eq 'B'}">
 													<c:import url="./temp_detail_e.jsp"></c:import>
 												</c:when>
-												<c:otherwise>
+												<c:otherwise>	
 													<c:import url="./temp_detail_l.jsp"></c:import>
 												</c:otherwise>
 											</c:choose>
@@ -272,15 +272,7 @@
 	let empNoLv2 = "${appLine1.emp_no}"; // 최종결재자사원번호
 	let doc_no = "${docVO.doc_no}";
 	
-	console.log("midEmpNo:", midEmpNo);
-	console.log("lastEmpNo:", lastEmpNo);
-	console.log("loginEmpNo:", loginEmpNo);
-	console.log("docWriter:", docWriter);
-	console.log("stateLv1:", stateLv1);
-	console.log("stateLv2:", stateLv2);
-	console.log("empNoLv1:", empNoLv1);
-	console.log("empNoLv2:", empNoLv2);
-	console.log("doc_no", doc_no);
+	console.log(loginEmpNo,empNoLv1,empNoLv2)
 	
 	$(document).ready(function(){
 		
@@ -328,6 +320,26 @@
 		 // 승인 버튼 클릭 이벤트
         $("#btn_appr").on("click", function () {
         	doc_approval("S"); //승인
+        	
+     /*    	if(stateLv2 == "O" && ${docVO.grp_cd} == "B"){
+        		
+        		$.ajax({
+        			type:'post',
+        			url:"/approval/",
+        			data:{
+        				emp_no: loginEmpNo,
+        				doc_title: ${docVO.doc_title},
+        				adtn_info1: ${docVO.adtn_info1},
+        				start_date: ${docVO.start_date},
+        				end_date: ${docVO.end_date},
+        				adtn_info: ${docVO.adtn_info2},
+        			}
+        			
+        			
+        		})
+        		
+        		
+        	} */
         });
 
         // 반려 버튼 클릭 이벤트
@@ -365,15 +377,22 @@
 	
 	function doc_approval(val){
 		var flag = ""; // approval_doc State 바꾸기 위함
-		if(loginEmpNo == empNoLv1 ){
-			flag = "G"; //진행
-		}else if(loginEmpNo == empNoLv2 ){
-			flag = "O"; // 완료
-		}else if(val == 'C'){
-			flag = "C" //반려
+		
+		if(val!='C'){
+			if(loginEmpNo == empNoLv1 ){
+				flag = "G"; //진행
+			}else if(loginEmpNo == empNoLv2 ){
+				flag = "O"; // 완료
+			}
+		}else{
+			
+			flag = "C";
 		}
 		
-		$.ajax({
+		console.log(flag);
+		console.log(val);
+
+		 $.ajax({
 			type: "post",
 			url : "/approval/docApproval",
 			data: {

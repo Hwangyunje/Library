@@ -27,6 +27,7 @@ public interface AnnouncementService {
 	
 
 	public MemberVO getBoardwriter(BoardVO boardVO) throws Exception;
+	
 
 	public AnnouncementVO getDetail(AnnouncementVO boardVO) throws Exception;
 
@@ -61,6 +62,12 @@ public interface AnnouncementService {
 	public int deleteFile(Long fileNo) throws Exception;
 
 	public LikeVO checkLike(LikeVO likeVO) throws Exception;
+
+	public String uploadImage(MultipartFile file,MemberVO memberVO) throws Exception;
+
+	public String setContentsImg(MultipartFile files) throws Exception;
+
+	public boolean setContentsImgDelete(String path)throws Exception;
 
 
 

@@ -222,6 +222,8 @@ public class ApprovalService {
 	@Transactional
 	public Map<String,Object> docApproval(Map<String,Object> param)throws Exception{
 		Map<String,Object> resultMap = new HashMap<>();
+				
+		
 		int resultInt = approvalDAO.docApproval(param); // history
 		 
 		int resultInt1 = approvalDAO.docBaseApproval(param); //doc
@@ -234,6 +236,8 @@ public class ApprovalService {
 		return resultMap;
 		
 	}
+	
+
 	
 	//summernote 이미지 업로드
 	public String setContentsImg(MultipartFile files) throws Exception{

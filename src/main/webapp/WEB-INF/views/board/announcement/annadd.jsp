@@ -65,7 +65,7 @@
                                                 <label class="form-check-label">비밀글 설정</label>
                                             </div>
                                             <div class="mb-3" style="width: 100%;">
-                                                <label for="board_contents" class="form-label">Contents</label>
+                                                <label for="board_content" class="form-label">Contents</label>
                                                 <textarea class="form-control" id="board_content" name="board_content" rows="17"></textarea>
                                             </div>
                                             <div id="fileList"></div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="row mx-3 my-3">
                                     <div class="col-lg-12">
-                                        <!-- file -->
+                                
                                     </div>
                                 </div>
                             </div>

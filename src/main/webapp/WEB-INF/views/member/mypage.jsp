@@ -8,20 +8,7 @@
 	<meta charset="UTF-8">
 	<title>My Page</title>
 	<c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import> 
-	<style>
 
-	
-	</style>
-	<script>
-		let ww =$('#image').data('ww');
-
-		if (ww =="" || ww ==null) {
-			console.log("t1qkf");
-		}else{
-			console.log("weotek");
-		}
-		console.log(ww);
-	</script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
@@ -52,7 +39,7 @@
 						<div class="form-group">
 							<br>
 							<label for="photo">프로필사진</label>
-							<img src="assets/img/profile-img.jpg"  alt="프로필사진" class="rounded-profile-img">
+							<img src="${filePath}"  alt="프로필사진">
 							<!-- "../../upload/${photo.file_name}" <input type="file" name="photo" class="form-control" id="photo	" aria-describedby="photoHelp" readonly/> -->
 							<small id="photoHelp" class="form-text text-muted"></small>
 						</div>

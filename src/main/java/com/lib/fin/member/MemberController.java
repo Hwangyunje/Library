@@ -54,11 +54,6 @@ public class MemberController {
 	@Value("${app.upload}")
 	private String filePath;
 		
-	//요청 URL 경로
-	@Value("${app.url.path}")
-	private String urlPath;
-	
-
 	
 	//관리자페이지
 	@GetMapping("adminPage")
@@ -175,23 +170,7 @@ public class MemberController {
 	    	//model.addAttribute("empPage",memberVO);
 	    	return "member/newEmpNo";	
 	    }
-	 //redirectAttributes emp_no 파라미터로 전달
-//    @GetMapping("newEmpNo")
-//    public String getNewEmpNo(String emp_no,Model model)throws Exception{
-//    	MemberVO memberVO = memberService.getNewEmpNo(emp_no);
-//    	//empPage = memberService.getNewEmpNo(emp_no);
-//    	log.info("========empPage:{}==========",empPage.toString());
-//    	model.addAttribute("empPage",empPage);
-//    	return "member/newEmpNo";	
-//    }
-    
-//    @PostMapping("newEmpNo")
-//    public String postNewEmpNo(MemberVO memberVO, Model model)throws Exception{
-//    	String empPage=memberService.getNewEmpNo(memberVO.getEmp_no());
-//    	log.info("========empPage{}==========",empPage.toString());
-//    	model.addAttribute("memberVO",empPage);
-//    	return "member/newEmpNo";	
-//    }
+
     
     
     
@@ -221,12 +200,16 @@ public class MemberController {
 	@GetMapping("mypage")
 	public String memberInfo(@AuthenticationPrincipal MemberVO memberVO, Model model, String emp_no)throws Exception{
 		//프로필 사진 가져오기
-		MemberFileVO profileImage = memberService.getMemImage(emp_no);
+		MemberFileVO profileImage = memberService.getMemImage(memberVO.getEmp_no());
+		String filePath = "/files/" + profileImage.getFile_name(); // 파일 경로 설정
 		model.addAttribute("profileImage",profileImage);
+		model.addAttribute("filePath", filePath);
+		log.info("===profileImage:{}===",profileImage);
+		log.info("===filePath:{}===",filePath);
 		model.addAttribute("memberVO",memberVO);
 		return "member/mypage";	
 	}
-	
+
 
 	
 	//정보수정 프로필 출력, 정보읽어와 뷰로 전달

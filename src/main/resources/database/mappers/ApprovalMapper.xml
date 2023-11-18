@@ -17,7 +17,7 @@
 		 		AND	DOC_TITLE LIKE concat('%',#{pager.search},'%')
 		 	</if>
 		 	<if test="pager.kind == 'state'">
-		 		AND	APPROVAL_STATE 
+		 		AND	ad.APPROVAL_STATE 
 		 		in( (SELECT CD FROM ST_STD_CD where cd_nm LIKE concat('%',#{pager.search},'%')))
 		 	</if>
   	</sql>
@@ -35,8 +35,15 @@
 		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'Y'
 		</if>
 		<if test="k=='done'">
-		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'N' and (APPROVAL_STATE = "O" or APPROVAL_STATE = "C")
-		</if>
+<!--  		WHERE EMP_NO = #{emp_no} and USE_YN ='Y' and TEMP_SAVE = 'N' and (APPROVAL_STATE = "O" or APPROVAL_STATE = "C")
+ -->
+ 			as ad
+			JOIN
+   			 APPROVAL_HISTORY ah ON ad.DOC_NO = ah.DOC_NO
+			WHERE
+    		ah.EMP_NO = #{emp_no} AND ad.USE_YN ='Y' AND ad.TEMP_SAVE = "N" AND (ah.APPROVAL_STATE = "S" or ah.APPROVAL_STATE = "C")
+ 
+ 		</if>
 		<if test="k=='ready'">
 			as ad
 			JOIN
@@ -64,7 +71,11 @@
 		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'Y'
 		</if>
 		<if test="k=='done'">
-		WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N' and (ad.APPROVAL_STATE = "O" or ad.APPROVAL_STATE = "C")
+		JOIN
+   			 APPROVAL_HISTORY ah ON ad.DOC_NO = ah.DOC_NO
+			WHERE
+    		ah.EMP_NO = #{emp_no} AND ad.USE_YN ='Y' AND ad.TEMP_SAVE = "N" AND (ah.APPROVAL_STATE = "S" or ah.APPROVAL_STATE = "C")
+		<!-- WHERE ad.EMP_NO = #{emp_no} and ad.USE_YN ='Y' and ad.TEMP_SAVE = 'N'  -->
 		</if>
 		<if test="k=='ready'">
 			JOIN

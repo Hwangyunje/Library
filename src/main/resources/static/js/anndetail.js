@@ -1,26 +1,32 @@
- $(document).ready(function() {
-let likecheck = $('#likediv').data('like');
+$(document).ready(function () {
 
-console.log("check like : "+likecheck);
-if (likecheck == 'Y') {
-    $('#likeButton').hide();
-    $('#unlikeButton').show();
-}else{
-    $('#unlikeButton').hide();
-    $('#likeButton').show();
-}
+    let likecheck = $('#likediv').data('like');
+
+    console.log("check like : " + likecheck);
+    
+    if (likecheck == 'Y') {
+
+        $('#likeButton').hide();
+        $('#unlikeButton').show();
+
+    } else {
+
+        $('#unlikeButton').hide();
+        $('#likeButton').show();
+
+    }
 
 
-let view = $('#view').data('view');
+    let view = $('#view').data('view');
 
-if (view == 'A') {
-    $('#logined').show();
-} else {
-    $("#logined").css('visibility', 'visible');
-    $('#logined').hide();
-}
+    if (view == 'A') {
+        $('#logined').show();
+    } else {
+        $("#logined").css('visibility', 'visible');
+        $('#logined').hide();
+    }
 
- });
+});
 function likeAnnouncement(board_no) {
     $.ajax({
         type: "POST",
@@ -43,6 +49,7 @@ function likeAnnouncement(board_no) {
 }
 
 function unlikeAnnouncement(board_no) {
+    
     $.ajax({
         type: "POST",
         url: "/board/unlikeAnnouncement/" + board_no,

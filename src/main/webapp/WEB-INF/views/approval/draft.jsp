@@ -4,8 +4,7 @@
 <!-- JSP에서 properties이 메세지를 사용할 수 있도록 하는 API -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-	<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -13,15 +12,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/layout/headCSS.jsp"></c:import>
-
-	 <%
-        // 현재 날짜를 가져오는 Java 코드
-        Date currentDate = new Date();
-
-        // 날짜를 원하는 형식으로 포맷팅
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(currentDate);
-    %>
+<c:set var="currentDate" value="<%= new java.util.Date() %>" />
+<fmt:formatDate pattern="yyyy-MM-dd" var="formattedDate" value="${currentDate}" />
 <link href="/css/doc.css" rel="stylesheet">
 </head>
 
@@ -106,7 +98,7 @@
 
 														<tr>
 															<th class="table-light">기안일</th>
-															<td><%= formattedDate %></td>
+															<td>${formattedDate}</td>
 														</tr>
 														<tr>
 															<th class="table-light">문서번호</th>
@@ -392,10 +384,12 @@
 				return false;
 			}
 			
-			let id1 = $("#id1").text();
-			let id2 = $("#id2").text();
+			let id1 = $("#id1").text(); //잔여연차
+			let id2 = $("#id2").text(); //신청연차
+			console.log(id1)
+			console.log(id2)
 
-			if (id2 > id1) {
+			if (id1 < id2 ) {
 			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
 			    alert("잔여연차가 부족합니다.");
 			    return false; 
@@ -419,7 +413,7 @@
 			let id1 = $("#id1").text();
 			let id2 = $("#id2").text();
 
-			if (id2 > id1) {
+			if (id2 < id1) {
 			    // 잔여연차가 신청연차보다 작을 때 알림 띄우고 폼 제출 취소
 			    alert("잔여연차가 부족합니다.");
 			    return false; // 폼 제출 취소

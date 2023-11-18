@@ -129,8 +129,8 @@
 	
 
 	<!-- 로그인 // 별칭으로 컬럼 지정 -->
-	<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
-	SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,
+<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
+	SELECT	M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,M.SIGN_NAME,
 	       T.CD_NM AS EMP_TEAM, L.CD_NM AS EMP_POSITION, MR.ROLENUM, R.ROLENAME 
 	FROM MEM_INFO M
 	LEFT JOIN ST_STD_CD T ON M.EMP_TEAM = T.CD AND T.GRP_CD = 'T001'
@@ -138,8 +138,9 @@
 	LEFT JOIN MEMBER_ROLE MR ON M.EMP_NO = MR.EMP_NO
 	LEFT JOIN ROLE R ON MR.ROLENUM = R.ROLENUM
 	WHERE M.EMP_NO = #{emp_no}
-	</select> 
+	</select>  
 	
+
 		<!-- 별칭으로 컬럼 지정 -->
 <!-- 	<select id="getLogin" parameterType="MemberVO" resultMap="getMemberResult">
 	SELECT M.EMP_NO, M.PASSWORD, M.NAME, M.EMAIL, M.BIRTH, M.PHONE,

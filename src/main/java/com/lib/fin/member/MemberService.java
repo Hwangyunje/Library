@@ -133,17 +133,7 @@ import lombok.extern.slf4j.Slf4j;
 	        return result;
 		    }   
 		 	
-		 //사원번호페이지
-//		 public String getNewEmpNo(String emp_no)throws Exception{
-//			
-//			 //MemberVO EmpNo = new MemberVO(memberVO.getEmp_no());
-//			 MemberVO EmpNo = memberDAO.getNewEmpNo(null)
-//			 log.info("====사원번호페이지:{}=====", emp_no);
-//			 
-//			 return emp_no; 
-//			 
-//		 }
-//	
+	
 		 public String getNewEmpNo(MemberVO memberVO)throws Exception{
 			String EmpNo = memberDAO.getNewEmpNo(memberVO);	
 			 log.info("====사원번호페이지:{}=====", EmpNo);
@@ -166,13 +156,13 @@ import lombok.extern.slf4j.Slf4j;
 			   try {
 				   //이미지가져오기
 				   MemberFileVO existImage = memberDAO.getMemImage(memberVO.getEmp_no());
-				   
 				   if(photo != null) {
 					   //이전에 설정한 프로필 사진 삭제
 					   if (existImage != null) { // 기존회원 이미지 변경시
 						   existImage = memberDAO.getMemImage(memberVO.getEmp_no());
-				            String filePath = "C:/STS4/upload/"; // 파일 경로 
-				            File existFile = new File(filePath + existImage.getFile_name());
+				            //String filePath = "C:/STS4/upload/"; // 파일 경로 
+				            String filePath = this.filePath;
+						   	File existFile = new File(filePath + existImage.getFile_name());
 				          
 				     	   //이미지 존재하면 업데이트
 							   //emp_no는 String , file_no는 Long이라 valueOf사용, db에 long타입 emp_no로 저장
@@ -220,6 +210,7 @@ import lombok.extern.slf4j.Slf4j;
 		public MemberFileVO getMemImage(String emp_no)throws Exception{
 			return memberDAO.getMemImage(emp_no);
 		}
+	
 		//프로필이미지 존재시 업데이트
 		public void updateMemImage(MemberFileVO memberFileVO)throws Exception{
 			memberDAO.updateMemImage(memberFileVO);
@@ -338,13 +329,12 @@ import lombok.extern.slf4j.Slf4j;
 					   if(memberVO == null) {
 						   throw new UsernameNotFoundException("이메일과 일치하는 사용자를 찾지 못 하였습니다 :"+ email);
 					   }else {
-						//임시비밀번호 암호화
-						//String tempPassword = passwordEncoder.encode(createTempPassword());
 						String tempPassword = createTempPassword();
+						//임시비밀번호 암호화
+						String hashPassword = passwordEncoder.encode(tempPassword);
 						log.info("====임시번호{}====",tempPassword);
 						//임시비밀번호 저장
-						//MemberVO saveTempPassword = new MemberVO();
-						memberVO.setPassword(tempPassword);
+						memberVO.setPassword(hashPassword);
 						//이메일 정보 저장
 						memberVO.setEmail(email);
 						//saveTempPassword.setPassword(tempPassword);
@@ -381,7 +371,7 @@ import lombok.extern.slf4j.Slf4j;
 //			            
 //			            javaMailSender.send(message);
 //			            log.info("====메일메시지발송{}====",message.toString());
-
+			 
 			            return "임시 비밀번호를 이메일로 보냅니다.";
 			        }
 			    }

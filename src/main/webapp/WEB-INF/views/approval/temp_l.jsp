@@ -50,7 +50,7 @@
 			<tr>
 				<th class="table-light">연차일수</th>
 
-				<td>잔여연차: <span id="id1"><sec:authentication property="principal.remain_holiday" /></span>   신청연차:<span id="id2"></span>
+				<td>잔여연차: <span id="id1"><%-- <sec:authentication property="principal.remain_holiday" /> --%>15</span>   신청연차:<span id="id2"></span>
 				</td>
 			</tr>
 

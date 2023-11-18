@@ -169,6 +169,11 @@
 		WHERE REG_ID = #{reg_id}
 		ORDER BY BOARD_NO DESC LIMIT 1
 	</select>
+	<select id="getLastNum" parameterType="BoardVO">
+		SELECT * FROM
+		BOARD_BASE
+		ORDER BY BOARD_NO DESC LIMIT 1
+	</select>
 	<update id="deleteFile" parameterType="Long">
 		UPDATE FILE_BASE
 		SET USE_YN = 'N'

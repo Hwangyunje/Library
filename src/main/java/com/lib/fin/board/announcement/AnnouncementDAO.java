@@ -75,7 +75,9 @@ public interface AnnouncementDAO {
 
 	public int setFileAdd(BoardFileVO boardFileVO) throws Exception;
 	
-	public AnnouncementVO getLastestBoard(AnnouncementVO boardVO) throws Exception;
+	public AnnouncementVO getLastestBoard() throws Exception;
+	
+	public AnnouncementVO getLastNum() throws Exception;
 
 	public BoardFileVO getFileInfo(Long file_no) throws Exception;
 

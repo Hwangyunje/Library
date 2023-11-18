@@ -86,7 +86,9 @@
 					
 
 					<br>
-				  <button type="submit" class="btn btn-primary">수정하기</button> 
+				  <button type="submit" id="write" class="btn btn-primary" aria-describedby="write">수정하기</button>
+				  <br>
+				  <small id="photoHelp" class="form-text text-muted">개인정보 수정 시 사용하시던 비밀번호 or 새로운 비밀번호를 입력하시길 바랍니다.</small> 
 						
 						
 									

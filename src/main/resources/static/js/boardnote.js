@@ -1,8 +1,9 @@
 
-$(document).ready(function () {
+
     let idx = 1;
 
     $(document).ready(function() {
+
         $('#add_btn').on('click', function(e) {
             e.preventDefault(); 
             
@@ -16,6 +17,58 @@ $(document).ready(function () {
                 $('#announcementForm').submit(); 
             }
         });
+
+        $("#board_content").summernote({
+            height: 500,
+            callbacks: {
+                onImageUpload: function(files){
+                    alert('이미지 업로드');
+                    //이미지를 server로 전송하고
+                    //응답으로 이미지경로와 파일명을 받아서
+                    //img 태그를 만들어서 src속성에 이미지 경로를 넣는것
+                    let formData = new FormData(); // <form></form>
+                    formData.append("files",files[0]); // <input type="file" name="files"> 를 폼안에 추가
+        
+                    $.ajax({
+                        type:"post",
+                        url:'./setContentsImg',
+                        data:formData,
+                        enctype: 'multipart/form-data',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success:function(result){
+                            console.log(result)
+                            $("#board_content").summernote('insertImage', result.trim());
+                        },
+                        error:function(){
+                            console.log('error');
+                        }	
+                    });
+        
+                },
+                onMediaDelete:function(files){
+                    let path = $(files[0]).attr("src");
+                    console.log("del");
+                    $.ajax({
+                        type:'post',
+                        url:'./setContentsImgDelete',
+                        data:{
+                            path:path
+                        },
+                        success:function(result){
+                            console.log(result);
+                        },
+                        error:function(){
+                            console.log('error');
+                        }
+                    })
+                }
+        
+            }
+        })
+    
+
     
         $("#fileList").on("click", ".df", function() {
             $(this).parent().remove();
@@ -61,56 +114,4 @@ $(document).ready(function () {
         }
     });
     
-
-    $('#board_content').summernote({
-        height: 500,
-        lang: "ko-KR",
-        // data: json,
-        callbacks: {
-            onImageUpload: function (files1) {
-                uploadImages(files1);
-            },
-            onMediaDelete: function (target) {
-                handleImageDelete(target[0].src);
-            }
-        }
-    });
-
-    function uploadImages(files1) {
-        var formData = new FormData();
-        for (var i = 0; i < files1.length; i++) {
-            formData.append("files1", files1[i]);
-        }
-
-        $.ajax({
-            url: "/board/uploadImages",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                var imageUrls = data;
-                for (var i = 0; i < imageUrls.length; i++) {
-                    $('#board_content').summernote('insertImage', imageUrls[i]);
-                }
-            },
-            error: function () {
-                console.log('upload image fail ... error...');
-            }
-        });
-    }
-
-    function handleImageDelete(imageUrl) {
-        $.ajax({
-            url: "/board/deleteImage/" + encodeURIComponent(imageUrl),
-            type: "DELETE",
-            success: function () {
-                console.log('success delete image');
-            },
-            error: function () {
-                console.log('fail delete image..fk...');
-            }
-        });
-    }
-});
 
