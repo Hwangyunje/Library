@@ -21,7 +21,7 @@ public class AnnouncementServiceImp implements AnnouncementService{
 	@Value("${app.upload}")
 	private String filePath;
 	
-	@Value("${app.approval.announce}")
+	@Value("${app.board.announce}")
 	private String announceName;
 	
 	
