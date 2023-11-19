@@ -1,27 +1,29 @@
 package com.lib.fin.facility;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.lib.fin.commons.Pager;
 @Service
-public interface FacilityService {
+public class FacilityService {
 
-
+	@Autowired
+	private FacilityDAO facilityDAO;
 	
-	public int setFacilityAdd(FacilityVO facilityVO) throws Exception;
-		
-	public int getTotalFacilityCount()throws Exception;
+	public int setFacilityAdd(FacilityVO facilityVO) throws Exception {
+		return facilityDAO.setFacilityAdd(facilityVO);
+	}
 	
-	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception;
+	public List<FacilityVO> getFacilitylist(FacilityVO facilityVO) throws Exception{
+		return facilityDAO.getFacilitylist(facilityVO);
+	}
 	
-	public int setFacilityDelete(FacilityVO facilityVO) throws Exception;
-
-	List<FacilityVO> getFacilityList(Map<String, Object> params, Pager pager) throws Exception;
+	public int setFacilityUpdate(FacilityVO facilityVO) throws Exception{
+		return facilityDAO.setFacilityUpdate(facilityVO);
+	}
 	
-
+	public int setFacilityDelete(FacilityVO facilityVO) throws Exception{
+		return facilityDAO.setFacilityDelete(facilityVO);
+	}
+	
 
 }

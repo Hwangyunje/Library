@@ -13,7 +13,6 @@
 	<typeAlias type="com.lib.fin.book.BookVO" alias="BookVO"/>
 	<typeAlias type="com.lib.fin.facility.FacilityVO" alias="FacilityVO"/>
 	<typeAlias type="com.lib.fin.reservation.ReservationVO" alias="ReservationVO"/>
-	<typeAlias type="com.lib.fin.attendance.AttendanceVO" alias="AttendanceVO"/>
 
 
 	<typeAlias type="com.lib.fin.approval.ApprovalHisVO" alias="ApprovalHisVO"/>
